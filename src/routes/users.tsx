@@ -6,22 +6,22 @@ import UsersPage from "../app/admin/users/UsersPage";
 import EditUserPage from "../app/admin/users/EditUserPage";
 import DeleteUserPage from "../app/admin/users/DeleteUserPage";
 
-export const usersAdmin = new Hono();
+export const users = new Hono();
 
-usersAdmin.get("/", authMiddleware("MANAGE_USERS"), async (c) => {
+users.get("/", authMiddleware("MANAGE_USERS"), async (c) => {
     const users = await db.user.findMany({ include: { groups: true } });
 
     return renderPage(c, <UsersPage users={users} />);
 });
 
-usersAdmin.get("/:id", authMiddleware("MANAGE_USERS"), async (c) => {
+users.get("/:id", authMiddleware("MANAGE_USERS"), async (c) => {
     const user = await db.user.findFirstOrThrow({ where: { id: c.req.param("id") }, include: { groups: true } });
     const groups = await db.group.findMany();
 
     return renderPage(c, <EditUserPage user={user} groups={groups} />);
 });
 
-usersAdmin.post("/:id", authMiddleware("MANAGE_USERS"), async (c) => {
+users.post("/:id", authMiddleware("MANAGE_USERS"), async (c) => {
     const formData = await c.req.formData();
 
     const groups = formData.getAll("groups").map((g) => g.toString());
@@ -35,17 +35,18 @@ usersAdmin.post("/:id", authMiddleware("MANAGE_USERS"), async (c) => {
         },
     });
 
-    return c.redirect("/admin/users");
+    return c.redirect("/users");
 });
 
-usersAdmin.get("/:id/delete", authMiddleware("MANAGE_USERS"), async (c) => {
+users.get("/:id/delete", authMiddleware("MANAGE_USERS"), async (c) => {
     const user = await db.user.findFirstOrThrow({ where: { id: c.req.param("id") } });
 
     return renderPage(c, <DeleteUserPage user={user} />);
 });
 
-usersAdmin.post("/:id/delete", authMiddleware("MANAGE_USERS"), async (c) => {
+users.post("/:id/delete", authMiddleware("MANAGE_USERS"), async (c) => {
     await db.user.delete({ where: { id: c.req.param("id") } });
 
-    return c.redirect("/admin/users");
+    return c.redirect("/users");
 });
+

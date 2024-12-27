@@ -29,9 +29,9 @@ export default function UsersPage({ users }: { users: (User & { groups: Group[] 
                             <td>{user.name}</td>
                             <td>{user.groups.map((group) => group.name).join(", ")}</td>
                             <td>
-                                <a href={`/admin/users/${user.id}`}>View/edit</a>
+                                <a href={`/users/${user.id}`}>View/edit</a>
                                 {" | "}
-                                <a href={`/admin/users/${user.id}/delete`} className="has-text-danger">
+                                <a href={`/users/${user.id}/delete`} className="has-text-danger">
                                     Delete
                                 </a>
                             </td>

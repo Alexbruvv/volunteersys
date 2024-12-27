@@ -5,7 +5,7 @@ export default function GroupsPage({ groups }: { groups: Group[] }) {
         <div className="container">
             <h3 className="title is-3">
                 Groups
-                <a href="/admin/groups/new" className="button is-primary is-pulled-right">
+                <a href="/groups/new" className="button is-primary is-pulled-right">
                     Create group
                 </a>
             </h3>
@@ -32,9 +32,9 @@ export default function GroupsPage({ groups }: { groups: Group[] }) {
                         <tr>
                             <td>{group.name}</td>
                             <td>
-                                <a href={`/admin/groups/${group.id}`}>View/edit</a>
+                                <a href={`/groups/${group.id}`}>View/edit</a>
                                 {" | "}
-                                <a href={`/admin/groups/${group.id}/delete`} className="has-text-danger">
+                                <a href={`/groups/${group.id}/delete`} className="has-text-danger">
                                     Delete
                                 </a>
                             </td>

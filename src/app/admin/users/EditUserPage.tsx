@@ -9,7 +9,7 @@ export default function EditUserPage({ user, groups }: { user: User & { groups: 
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/admin/users">Users</a>
+                        <a href="/users">Users</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

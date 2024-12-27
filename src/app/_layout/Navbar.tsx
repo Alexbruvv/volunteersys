@@ -44,13 +44,13 @@ export default function Navbar() {
 
                             <div className="navbar-dropdown">
                                 {user.groups.some((group) => group.permissions.some((p) => p === "MANAGE_USERS")) && (
-                                    <a href="/admin/users" className="navbar-item">
+                                    <a href="/users" className="navbar-item">
                                         Users
                                     </a>
                                 )}
 
                                 {user.groups.some((group) => group.permissions.some((p) => p === "MANAGE_GROUPS")) && (
-                                    <a href="/admin/groups" className="navbar-item">
+                                    <a href="/groups" className="navbar-item">
                                         Groups
                                     </a>
                                 )}

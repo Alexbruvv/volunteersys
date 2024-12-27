@@ -8,7 +8,7 @@ export default function DeleteUserPage({ user }: { user: User }) {
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/admin/groups">Groups</a>
+                        <a href="/users">Users</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

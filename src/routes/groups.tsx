@@ -8,13 +8,13 @@ import type { Permission } from "@prisma/client";
 import CreateGroupPage from "../app/admin/groups/CreateGroupPage";
 import DeleteGroupPage from "../app/admin/groups/DeleteGroupPage";
 
-export const groupsAdmin = new Hono();
+export const groups = new Hono();
 
-groupsAdmin.get("/new", authMiddleware("MANAGE_GROUPS"), async (c) => {
+groups.get("/new", authMiddleware("MANAGE_GROUPS"), async (c) => {
     return renderPage(c, <CreateGroupPage />);
 });
 
-groupsAdmin.post("/new", authMiddleware("MANAGE_GROUPS"), async (c) => {
+groups.post("/new", authMiddleware("MANAGE_GROUPS"), async (c) => {
     const data = await c.req.formData();
 
     await db.group.create({
@@ -24,22 +24,22 @@ groupsAdmin.post("/new", authMiddleware("MANAGE_GROUPS"), async (c) => {
         },
     });
 
-    return c.redirect(`/admin/groups`);
+    return c.redirect(`/groups`);
 });
 
-groupsAdmin.get("/", authMiddleware("MANAGE_GROUPS"), async (c) => {
+groups.get("/", authMiddleware("MANAGE_GROUPS"), async (c) => {
     const groups = await db.group.findMany();
 
     return renderPage(c, <GroupsPage groups={groups} />);
 });
 
-groupsAdmin.get("/:id", authMiddleware("MANAGE_GROUPS"), async (c) => {
+groups.get("/:id", authMiddleware("MANAGE_GROUPS"), async (c) => {
     const group = await db.group.findFirstOrThrow({ where: { id: c.req.param("id") } });
 
     return renderPage(c, <EditGroupPage group={group} />);
 });
 
-groupsAdmin.post("/:id", authMiddleware("MANAGE_GROUPS"), async (c) => {
+groups.post("/:id", authMiddleware("MANAGE_GROUPS"), async (c) => {
     const data = await c.req.formData();
 
     await db.group.update({
@@ -50,20 +50,20 @@ groupsAdmin.post("/:id", authMiddleware("MANAGE_GROUPS"), async (c) => {
         },
     });
 
-    return c.redirect(`/admin/groups`);
+    return c.redirect(`/groups`);
 });
 
-groupsAdmin.get("/:id/delete", authMiddleware("MANAGE_GROUPS"), async (c) => {
+groups.get("/:id/delete", authMiddleware("MANAGE_GROUPS"), async (c) => {
     const group = await db.group.findFirstOrThrow({ where: { id: c.req.param("id") } });
 
     return renderPage(c, <DeleteGroupPage group={group} />);
 });
 
-groupsAdmin.post("/:id/delete", authMiddleware("MANAGE_GROUPS"), async (c) => {
+groups.post("/:id/delete", authMiddleware("MANAGE_GROUPS"), async (c) => {
     await db.group.delete({
         where: { id: c.req.param("id") },
     });
 
-    return c.redirect("/admin/groups");
+    return c.redirect("/groups");
 });
 

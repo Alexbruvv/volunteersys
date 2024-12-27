@@ -8,7 +8,7 @@ export default function DeleteGroupPage({ group }: { group: Group }) {
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/admin/groups">Groups</a>
+                        <a href="/groups">Groups</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">
