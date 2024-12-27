@@ -33,6 +33,10 @@ export default function GroupsPage({ groups }: { groups: Group[] }) {
                             <td>{group.name}</td>
                             <td>
                                 <a href={`/admin/groups/${group.id}`}>View/edit</a>
+                                {" | "}
+                                <a href={`/admin/groups/${group.id}/delete`} className="has-text-danger">
+                                    Delete
+                                </a>
                             </td>
                         </tr>
                     ))}

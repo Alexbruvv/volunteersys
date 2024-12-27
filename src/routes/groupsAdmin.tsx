@@ -1,11 +1,12 @@
 import { Hono } from "hono";
 import { db } from "../db/db";
 import renderPage from "../utils/renderPage";
-import GroupsPage from "../app/admin/GroupsPage";
+import GroupsPage from "../app/admin/groups/GroupsPage";
 import { authMiddleware } from "./auth";
-import EditGroupPage from "../app/admin/EditGroupPage";
+import EditGroupPage from "../app/admin/groups/EditGroupPage";
 import type { Permission } from "@prisma/client";
-import CreateGroupPage from "../app/admin/CreateGroupPage";
+import CreateGroupPage from "../app/admin/groups/CreateGroupPage";
+import DeleteGroupPage from "../app/admin/groups/DeleteGroupPage";
 
 export const groupsAdmin = new Hono();
 
@@ -50,5 +51,19 @@ groupsAdmin.post("/:id", authMiddleware("MANAGE_GROUPS"), async (c) => {
     });
 
     return c.redirect(`/admin/groups`);
+});
+
+groupsAdmin.get("/:id/delete", authMiddleware("MANAGE_GROUPS"), async (c) => {
+    const group = await db.group.findFirstOrThrow({ where: { id: c.req.param("id") } });
+
+    return renderPage(c, <DeleteGroupPage group={group} />);
+});
+
+groupsAdmin.post("/:id/delete", authMiddleware("MANAGE_GROUPS"), async (c) => {
+    await db.group.delete({
+        where: { id: c.req.param("id") },
+    });
+
+    return c.redirect("/admin/groups");
 });
 
