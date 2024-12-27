@@ -5,7 +5,7 @@ import { db } from "../db/db";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
 import { sign, verify } from "hono/jwt";
-import type { Permission, User } from "@prisma/client";
+import type { Group, Permission, User } from "@prisma/client";
 
 export const AUTH_TOKEN_COOKIE_NAME = "auth-token";
 export const AUTH_TOKEN_LIFETIME = 60 * 60 * 24 * 7; // 7 days
@@ -13,7 +13,7 @@ export const AUTH_TOKEN_LIFETIME = 60 * 60 * 24 * 7; // 7 days
 export const authMiddleware = (requiredPermission?: Permission) =>
     createMiddleware<{
         Variables: {
-            user: User;
+            user: User & { groups: Group[] };
         };
     }>(async (c, next) => {
         const signedCookie = await getCookie(c, AUTH_TOKEN_COOKIE_NAME);
