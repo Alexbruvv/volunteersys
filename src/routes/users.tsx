@@ -2,9 +2,9 @@ import { Hono } from "hono";
 import { authMiddleware } from "./auth";
 import { db } from "../db/db";
 import renderPage from "../utils/renderPage";
-import UsersPage from "../app/admin/users/UsersPage";
-import EditUserPage from "../app/admin/users/EditUserPage";
-import DeleteUserPage from "../app/admin/users/DeleteUserPage";
+import UsersPage from "../app/users/UsersPage";
+import EditUserPage from "../app/users/EditUserPage";
+import DeleteUserPage from "../app/users/DeleteUserPage";
 
 export const users = new Hono();
 

@@ -38,6 +38,9 @@ model Account {
 enum Permission {
   MANAGE_GROUPS
   MANAGE_USERS
+
+  CONFIGURE_ATTENDANCE_SHEETS
+  RECORD_ATTENDANCE
 }
 
 model Group {

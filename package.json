@@ -7,6 +7,7 @@
     },
     "devDependencies": {
         "@types/bun": "latest",
+        "@types/luxon": "^3.4.2",
         "@types/pg": "^8.11.10",
         "prisma": "^6.1.0",
         "tsx": "^4.19.2"
@@ -18,8 +19,8 @@
         "@hono/oauth-providers": "^0.6.2",
         "@prisma/client": "6.1.0",
         "hono": "^4.6.14",
+        "luxon": "^3.5.0",
         "pg": "^8.13.1",
         "postgres": "^3.4.5"
     }
 }
-

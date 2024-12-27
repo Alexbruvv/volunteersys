@@ -10,7 +10,7 @@ import type { Group, Permission, User } from "@prisma/client";
 export const AUTH_TOKEN_COOKIE_NAME = "auth-token";
 export const AUTH_TOKEN_LIFETIME = 60 * 60 * 24 * 7; // 7 days
 
-export const authMiddleware = (requiredPermission?: Permission) =>
+export const authMiddleware = (...requiredPermissions: Permission[]) =>
     createMiddleware<{
         Variables: {
             user: User & { groups: Group[] };
@@ -36,7 +36,12 @@ export const authMiddleware = (requiredPermission?: Permission) =>
             return c.redirect("/auth/login");
         }
 
-        if (requiredPermission && !user.groups.some((group) => group.permissions.includes(requiredPermission))) {
+        if (
+            requiredPermissions.length > 0 &&
+            !user.groups.some((group) =>
+                requiredPermissions.some((permission) => group.permissions.includes(permission))
+            )
+        ) {
             return c.redirect("/");
         }
 

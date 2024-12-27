@@ -1,12 +1,12 @@
 import { Hono } from "hono";
 import { db } from "../db/db";
 import renderPage from "../utils/renderPage";
-import GroupsPage from "../app/admin/groups/GroupsPage";
+import GroupsPage from "../app/groups/GroupsPage";
 import { authMiddleware } from "./auth";
-import EditGroupPage from "../app/admin/groups/EditGroupPage";
+import EditGroupPage from "../app/groups/EditGroupPage";
 import type { Permission } from "@prisma/client";
-import CreateGroupPage from "../app/admin/groups/CreateGroupPage";
-import DeleteGroupPage from "../app/admin/groups/DeleteGroupPage";
+import CreateGroupPage from "../app/groups/CreateGroupPage";
+import DeleteGroupPage from "../app/groups/DeleteGroupPage";
 
 export const groups = new Hono();
 

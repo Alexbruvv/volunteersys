@@ -2,6 +2,7 @@ import { useContext } from "hono/jsx";
 import { UserContext } from "../context";
 import type { Permission } from "@prisma/client";
 
+const ATTENDANCE_PERMISSIONS: Set<Permission> = new Set(["CONFIGURE_ATTENDANCE_SHEETS", "RECORD_ATTENDANCE"]);
 const SYSTEM_PERMISSIONS: Set<Permission> = new Set(["MANAGE_USERS", "MANAGE_GROUPS"]);
 
 export default function Navbar() {
@@ -37,6 +38,12 @@ export default function Navbar() {
                     <a href="/" className="navbar-item">
                         Home
                     </a>
+
+                    {user.groups.some((group) => group.permissions.some((p) => ATTENDANCE_PERMISSIONS.has(p))) && (
+                        <a href="/attendance" className="navbar-item">
+                            Attendance
+                        </a>
+                    )}
 
                     {user.groups.some((group) => group.permissions.some((p) => SYSTEM_PERMISSIONS.has(p))) && (
                         <div className="navbar-item has-dropdown is-hoverable">
