@@ -2,7 +2,7 @@ import { useContext } from "hono/jsx";
 import { UserContext } from "../context";
 import type { Permission } from "@prisma/client";
 
-const ADMIN_PERMISSIONS: Set<Permission> = new Set(["MANAGE_USERS", "MANAGE_GROUPS"]);
+const SYSTEM_PERMISSIONS: Set<Permission> = new Set(["MANAGE_USERS", "MANAGE_GROUPS"]);
 
 export default function Navbar() {
     const user = useContext(UserContext);
@@ -38,14 +38,22 @@ export default function Navbar() {
                         Home
                     </a>
 
-                    {user.groups.some((group) => group.permissions.some((p) => ADMIN_PERMISSIONS.has(p))) && (
+                    {user.groups.some((group) => group.permissions.some((p) => SYSTEM_PERMISSIONS.has(p))) && (
                         <div className="navbar-item has-dropdown is-hoverable">
-                            <a className="navbar-link">Admin</a>
+                            <a className="navbar-link">System</a>
 
                             <div className="navbar-dropdown">
-                                <a href="/admin/groups" className="navbar-item">
-                                    Groups
-                                </a>
+                                {user.groups.some((group) => group.permissions.some((p) => p === "MANAGE_USERS")) && (
+                                    <a href="/admin/users" className="navbar-item">
+                                        Users
+                                    </a>
+                                )}
+
+                                {user.groups.some((group) => group.permissions.some((p) => p === "MANAGE_GROUPS")) && (
+                                    <a href="/admin/groups" className="navbar-item">
+                                        Groups
+                                    </a>
+                                )}
                             </div>
                         </div>
                     )}

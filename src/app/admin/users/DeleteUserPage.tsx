@@ -1,9 +1,9 @@
-import type { Group } from "@prisma/client";
+import type { User } from "@prisma/client";
 
-export default function DeleteGroupPage({ group }: { group: Group }) {
+export default function DeleteUserPage({ user }: { user: User }) {
     return (
         <div className="container">
-            <h3 className="title is-3">Delete group</h3>
+            <h3 className="title is-3">Delete user</h3>
 
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
@@ -12,14 +12,14 @@ export default function DeleteGroupPage({ group }: { group: Group }) {
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">
-                            Delete {group.name}
+                            Delete {user.name}
                         </a>
                     </li>
                 </ul>
             </nav>
 
             <p className="mb-2">
-                Delete <b>{group.name}</b>?
+                Delete <b>{user.name}</b>?
             </p>
 
             <form method="post">
