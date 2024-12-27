@@ -6,7 +6,7 @@ import { auth } from "./routes/auth";
 const app = new Hono();
 app.use("/static/*", serveStatic({ root: "./" }));
 app.route("/", root);
-app.route("/", auth);
+app.route("/auth", auth);
 
 export default {
     port: 3000,

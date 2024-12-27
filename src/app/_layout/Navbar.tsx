@@ -1,6 +1,15 @@
+import { useContext } from "hono/jsx";
+import { UserContext } from "../context";
+
 export default function Navbar() {
+    const user = useContext(UserContext);
+
+    if (!user) {
+        throw new Error("User not found in context");
+    }
+
     return (
-        <nav className="navbar is-primary mb-4" role="navigation" aria-label="main navigation">
+        <nav className="navbar is-primary mb-5" role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
                 <a className="navbar-item" href="/">
                     <b>Volunteer System</b>
@@ -27,7 +36,17 @@ export default function Navbar() {
                     </a>
                 </div>
 
-                <div className="navbar-end"></div>
+                <div className="navbar-end">
+                    <div className="navbar-item has-dropdown is-hoverable">
+                        <a className="navbar-link">{user.name}</a>
+
+                        <div className="navbar-dropdown">
+                            <a href="/auth/logout" className="navbar-item">
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </nav>
     );

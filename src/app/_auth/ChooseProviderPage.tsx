@@ -8,7 +8,7 @@ export default function ChooseProviderPage() {
             <body>
                 <div className="container mt-6">
                     <div className="columns is-centered">
-                        <div className="column is-one-third-desktop">
+                        <div className="column is-one-third-desktop mx-4">
                             <div className="card">
                                 <div className="card-header">
                                     <h1 className="card-header-title">Choose authentication provider</h1>

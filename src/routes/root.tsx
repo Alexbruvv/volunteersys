@@ -1,7 +1,9 @@
 import { Hono } from "hono";
-import AppLayout from "../app/_layout/AppLayout";
+import { authMiddleware } from "./auth";
+import IndexPage from "../app/IndexPage";
+import renderPage from "../utils/renderPage";
 
 export const root = new Hono();
 
-root.get("/", (c) => c.html(<AppLayout />));
+root.get("/", authMiddleware(), (c) => renderPage(c, <IndexPage />));
 

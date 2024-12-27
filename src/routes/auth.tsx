@@ -3,11 +3,51 @@ import ChooseProviderPage from "../app/_auth/ChooseProviderPage";
 import { googleAuth } from "@hono/oauth-providers/google";
 import { db } from "../db/db";
 import { and, eq } from "drizzle-orm";
-import { accounts, users } from "../db/schema/auth";
+import { accounts, users, type User } from "../db/schema/auth";
+import { deleteCookie, getCookie, setCookie } from "hono/cookie";
+import { createMiddleware } from "hono/factory";
+import { sign, verify } from "hono/jwt";
 
-export const auth = new Hono().basePath("/auth");
+export const AUTH_TOKEN_COOKIE_NAME = "auth-token";
+export const AUTH_TOKEN_LIFETIME = 60 * 60 * 24 * 7; // 7 days
+
+export const authMiddleware = () =>
+    createMiddleware<{
+        Variables: {
+            user: User;
+        };
+    }>(async (c, next) => {
+        const signedCookie = await getCookie(c, AUTH_TOKEN_COOKIE_NAME);
+
+        if (!signedCookie) {
+            console.log("no signed cookie");
+            return c.redirect("/auth/login");
+        }
+
+        const parsedToken = await verify(signedCookie, process.env.JWT_SECRET!);
+        const userId = parsedToken.userId as string | undefined;
+
+        if (!userId) {
+            return c.redirect("/auth/login");
+        }
+
+        const user = await db.query.users.findFirst({ where: eq(users.id, userId) });
+
+        if (!user) {
+            return c.redirect("/auth/login");
+        }
+
+        c.set("user", user);
+        await next();
+    });
+
+export const auth = new Hono();
 
 auth.get("/login", (c) => c.html(<ChooseProviderPage />));
+auth.get("/logout", (c) => {
+    deleteCookie(c, AUTH_TOKEN_COOKIE_NAME);
+    return c.redirect("/");
+});
 
 auth.get(
     "/google",
@@ -43,7 +83,16 @@ auth.get(
         });
 
         if (existingAccount) {
-            return c.text("Account exists. TODO: setup session");
+            const signedJwt = await sign(
+                { userId: existingAccount.user.id, exp: Date.now() + AUTH_TOKEN_LIFETIME * 1000 },
+                process.env.JWT_SECRET!
+            );
+
+            setCookie(c, AUTH_TOKEN_COOKIE_NAME, signedJwt, {
+                expires: new Date(Date.now() + AUTH_TOKEN_LIFETIME * 1000),
+            });
+
+            return c.redirect("/");
         }
 
         const user = await db.transaction(async (tx) => {
@@ -67,7 +116,7 @@ auth.get(
             return user;
         });
 
-        return c.json({ user });
+        return c.redirect("/");
     }
 );
 
