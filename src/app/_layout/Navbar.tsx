@@ -34,6 +34,16 @@ export default function Navbar() {
                     <a href="/" className="navbar-item">
                         Home
                     </a>
+
+                    <div className="navbar-item has-dropdown is-hoverable">
+                        <a className="navbar-link">Admin</a>
+
+                        <div className="navbar-dropdown">
+                            <a href="/admin/groups" className="navbar-item">
+                                Groups
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="navbar-end">

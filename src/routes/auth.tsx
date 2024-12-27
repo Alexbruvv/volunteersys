@@ -2,16 +2,15 @@ import { Hono } from "hono";
 import ChooseProviderPage from "../app/_auth/ChooseProviderPage";
 import { googleAuth } from "@hono/oauth-providers/google";
 import { db } from "../db/db";
-import { and, eq } from "drizzle-orm";
-import { accounts, users, type User } from "../db/schema/auth";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
 import { sign, verify } from "hono/jwt";
+import type { Permission, User } from "@prisma/client";
 
 export const AUTH_TOKEN_COOKIE_NAME = "auth-token";
 export const AUTH_TOKEN_LIFETIME = 60 * 60 * 24 * 7; // 7 days
 
-export const authMiddleware = () =>
+export const authMiddleware = (requiredPermission?: Permission) =>
     createMiddleware<{
         Variables: {
             user: User;
@@ -31,10 +30,14 @@ export const authMiddleware = () =>
             return c.redirect("/auth/login");
         }
 
-        const user = await db.query.users.findFirst({ where: eq(users.id, userId) });
+        const user = await db.user.findFirst({ where: { id: userId }, include: { groups: true } });
 
         if (!user) {
             return c.redirect("/auth/login");
+        }
+
+        if (requiredPermission && !user.groups.some((group) => group.permissions.includes(requiredPermission))) {
+            return c.redirect("/");
         }
 
         c.set("user", user);
@@ -75,9 +78,12 @@ auth.get(
             return c.text("Email must be a studentrobotics.org email address");
         }
 
-        const existingAccount = await db.query.accounts.findFirst({
-            where: and(eq(accounts.provider, "google"), eq(accounts.emailAddress, providerUser.email)),
-            with: {
+        const existingAccount = await db.account.findFirst({
+            where: {
+                provider: "google",
+                emailAddress: providerUser.email,
+            },
+            include: {
                 user: true,
             },
         });
@@ -95,22 +101,21 @@ auth.get(
             return c.redirect("/");
         }
 
-        const user = await db.transaction(async (tx) => {
-            const user = (
-                await tx
-                    .insert(users)
-                    .values({
-                        name: providerUser.name!,
-                        primaryEmail: providerUser.email!,
-                    })
-                    .returning()
-            )[0];
+        const user = await db.$transaction(async (tx) => {
+            const user = await tx.user.create({
+                data: {
+                    name: providerUser.name!,
+                    primaryEmail: providerUser.email!,
+                },
+            });
 
-            await tx.insert(accounts).values({
-                provider: "google",
-                providerAccountId: providerUser.id!,
-                emailAddress: providerUser.email!,
-                userId: user.id,
+            await tx.account.create({
+                data: {
+                    provider: "google",
+                    providerAccountId: providerUser.id!,
+                    emailAddress: providerUser.email!,
+                    userId: user.id,
+                },
             });
 
             return user;

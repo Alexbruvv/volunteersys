@@ -1,0 +1,137 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String @id @default(cuid())
+  name         String
+  primaryEmail String
+
+  accounts Account[]
+  groups   Group[]
+
+  ownedAreas Area[]
+}
+
+model Account {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  provider          String
+  providerAccountId String
+  emailAddress      String
+}
+
+enum Permission {
+  MANAGE_GROUPS
+  MANAGE_USERS
+}
+
+model Group {
+  id   String @id @default(cuid())
+  name String
+
+  permissions Permission[] @default([])
+  users       User[]
+}
+
+model Volunteer {
+  id            String  @id @default(cuid())
+  name          String
+  badgePronouns String?
+  emailAddress  String
+
+  consActiveRoles    Int // 1-4; 4 = happy with active roles
+  consKitKnowledge   Int // 1-4; 4 = very knowledgeable
+  consLongShifts     Int // 1-4; 4 = happy with long shifts
+  consQuietRoles     Int // 1-4; 4 = happy with quiet roles
+  consPublicSpeaking Boolean // true = happy to do public speaking
+  consMissFinals     Boolean // true = happy to miss finals
+
+  presentAttendanceSheets AttendanceSheet[]
+  assignments             ScheduleBlockAssignment[]
+}
+
+model AttendanceSheet {
+  id        String   @id @default(cuid())
+  name      String
+  startDate DateTime
+
+  volunteers Volunteer[]
+}
+
+model Area {
+  id          String @id @default(cuid())
+  name        String
+  description String
+
+  owners User[]
+  roles  Role[]
+
+  assignments ScheduleBlockAssignment[]
+}
+
+model Role {
+  id          String @id @default(cuid())
+  name        String
+  description String
+  guidanceUri String
+
+  areaId String
+  area   Area   @relation(fields: [areaId], references: [id])
+}
+
+model ScheduleBlock {
+  id   String @id @default(cuid())
+  name String
+
+  startTime DateTime
+  endTime   DateTime
+
+  assignments ScheduleBlockAssignment[]
+  slots       ScheduleSlot[]
+}
+
+model ScheduleBlockAssignment {
+  id String @id @default(cuid())
+
+  scheduleBlockId String
+  scheduleBlock   ScheduleBlock @relation(fields: [scheduleBlockId], references: [id])
+
+  areaId String
+  area   Area   @relation(fields: [areaId], references: [id])
+
+  volunteerId String
+  volunteer   Volunteer @relation(fields: [volunteerId], references: [id])
+}
+
+model Schedule {
+  id   String @id @default(cuid())
+  name String
+
+  slots ScheduleSlot[]
+}
+
+model ScheduleSlot {
+  id   String @id @default(cuid())
+  name String
+
+  scheduleId String
+  schedule   Schedule @relation(fields: [scheduleId], references: [id])
+
+  scheduleBlockId String
+  scheduleBlock   ScheduleBlock @relation(fields: [scheduleBlockId], references: [id])
+}

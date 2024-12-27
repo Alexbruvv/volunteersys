@@ -29,6 +29,13 @@
       "when": 1735302006712,
       "tag": "0003_spotty_spacker_dave",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1735305407057,
+      "tag": "0004_fuzzy_stranger",
+      "breakpoints": true
     }
   ]
 }

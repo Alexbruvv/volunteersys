@@ -1,0 +1,1 @@
+ALTER TYPE "public"."permission" ADD VALUE 'MANAGE_GROUPS';

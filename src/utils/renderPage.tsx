@@ -1,8 +1,8 @@
 import type { Context } from "hono";
 import AppLayout from "../app/_layout/AppLayout";
-import type { User } from "../db/schema/auth";
 import { UserContext } from "../app/context";
 import type { HtmlEscapedString } from "hono/utils/html";
+import type { User } from "@prisma/client";
 
 type Element = HtmlEscapedString | Promise<HtmlEscapedString>;
 
