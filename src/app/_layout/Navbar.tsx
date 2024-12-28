@@ -4,6 +4,7 @@ import type { Permission } from "@prisma/client";
 import { hasPermission } from "../../utils/permissions";
 
 const ATTENDANCE_PERMISSIONS: Permission[] = ["CONFIGURE_ATTENDANCE_SHEETS", "RECORD_ATTENDANCE"];
+const CONFIG_PERMISSIONS: Permission[] = ["CONFIGURE_AREAS"];
 const SYSTEM_PERMISSIONS: Permission[] = ["MANAGE_USERS", "MANAGE_GROUPS"];
 
 export default function Navbar() {
@@ -52,18 +53,32 @@ export default function Navbar() {
                         </a>
                     )}
 
+                    {CONFIG_PERMISSIONS.some((permission) => hasPermission(user, permission)) && (
+                        <div className="navbar-item has-dropdown is-hoverable">
+                            <a className="navbar-link">Config</a>
+
+                            <div className="navbar-dropdown">
+                                {hasPermission(user, "CONFIGURE_AREAS") && (
+                                    <a href="/areas" className="navbar-item">
+                                        Areas
+                                    </a>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
                     {SYSTEM_PERMISSIONS.some((permission) => hasPermission(user, permission)) && (
                         <div className="navbar-item has-dropdown is-hoverable">
                             <a className="navbar-link">System</a>
 
                             <div className="navbar-dropdown">
-                                {user.groups.some((group) => group.permissions.some((p) => p === "MANAGE_USERS")) && (
+                                {hasPermission(user, "MANAGE_USERS") && (
                                     <a href="/users" className="navbar-item">
                                         Users
                                     </a>
                                 )}
 
-                                {user.groups.some((group) => group.permissions.some((p) => p === "MANAGE_GROUPS")) && (
+                                {hasPermission(user, "MANAGE_GROUPS") && (
                                     <a href="/groups" className="navbar-item">
                                         Groups
                                     </a>

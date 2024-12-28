@@ -36,6 +36,8 @@ model Account {
 }
 
 enum Permission {
+  CONFIGURE_AREAS
+
   MANAGE_GROUPS
   MANAGE_USERS
 
