@@ -27,6 +27,7 @@ volunteers.post("/new", authMiddleware("MANAGE_VOLUNTEERS"), async (c) => {
             consQuietRoles: parseInt(formData.get("consQuietRoles") as string),
             consPublicSpeaking: formData.get("consPublicSpeaking") === "true",
             consMissFinals: formData.get("consMissFinals") === "true",
+            notes: formData.get("notes") as string,
         },
     });
 
@@ -66,6 +67,7 @@ volunteers.post("/:id", authMiddleware("MANAGE_VOLUNTEERS"), async (c) => {
             consQuietRoles: parseInt(formData.get("consQuietRoles") as string),
             consPublicSpeaking: formData.get("consPublicSpeaking") === "true",
             consMissFinals: formData.get("consMissFinals") === "true",
+            notes: formData.get("notes") as string,
         },
     });
 

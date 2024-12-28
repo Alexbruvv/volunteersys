@@ -120,6 +120,13 @@ export default function AddVolunteerPage() {
                 </div>
 
                 <div className="field">
+                    <label className="label">Notes</label>
+                    <div className="control">
+                        <textarea name="notes" className="textarea" placeholder="Notes" rows={3}></textarea>
+                    </div>
+                </div>
+
+                <div className="field">
                     <div className="control">
                         <button className="button is-primary" type="submit">
                             Save
