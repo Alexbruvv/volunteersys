@@ -38,7 +38,14 @@ export default function RecordAttendancePage({
                         <tr>
                             <td>{volunteer.name}</td>
                             <td>{sheet.volunteers.some((v) => v.id === volunteer.id) ? "Present" : "Absent"}</td>
-                            <td></td>
+                            <td>
+                                <a
+                                    href={`/attendance/${sheet.id}/toggle?volunteerId=${volunteer.id}`}
+                                    className="button is-primary is-small"
+                                >
+                                    Toggle
+                                </a>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

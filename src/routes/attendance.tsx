@@ -41,3 +41,36 @@ attendance.get("/:id/record", authMiddleware("RECORD_ATTENDANCE"), async (c) => 
     return renderPage(c, <RecordAttendancePage sheet={sheet} volunteers={volunteers} />);
 });
 
+attendance.get("/:id/toggle", authMiddleware("RECORD_ATTENDANCE"), async (c) => {
+    const volunteerId = c.req.query()["volunteerId"] as string;
+
+    const sheet = await db.attendanceSheet.findFirstOrThrow({
+        where: { id: c.req.param("id") },
+        include: {
+            volunteers: true,
+        },
+    });
+
+    if (sheet.volunteers.some((v) => v.id === volunteerId)) {
+        await db.attendanceSheet.update({
+            where: { id: c.req.param("id") },
+            data: {
+                volunteers: {
+                    disconnect: { id: volunteerId },
+                },
+            },
+        });
+    } else {
+        await db.attendanceSheet.update({
+            where: { id: c.req.param("id") },
+            data: {
+                volunteers: {
+                    connect: { id: volunteerId },
+                },
+            },
+        });
+    }
+
+    return c.redirect(`/attendance/${c.req.param("id")}/record`);
+});
+
