@@ -39,6 +39,8 @@ enum Permission {
   MANAGE_GROUPS
   MANAGE_USERS
 
+  MANAGE_VOLUNTEERS
+
   CONFIGURE_ATTENDANCE_SHEETS
   RECORD_ATTENDANCE
 }
@@ -63,6 +65,8 @@ model Volunteer {
   consQuietRoles     Int // 1-4; 4 = happy with quiet roles
   consPublicSpeaking Boolean // true = happy to do public speaking
   consMissFinals     Boolean // true = happy to miss finals
+
+  notes String?
 
   presentAttendanceSheets AttendanceSheet[]
   assignments             ScheduleBlockAssignment[]
