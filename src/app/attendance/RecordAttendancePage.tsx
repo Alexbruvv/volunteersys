@@ -1,4 +1,8 @@
 import type { AttendanceSheet, Volunteer } from "@prisma/client";
+import { memo } from "hono/jsx";
+
+const PresentTag = memo(() => <span className="tag is-success">Present</span>);
+const AbsentTag = memo(() => <span className="tag is-danger">Absent</span>);
 
 export default function RecordAttendancePage({
     sheet,
@@ -37,7 +41,9 @@ export default function RecordAttendancePage({
                     {volunteers.map((volunteer) => (
                         <tr>
                             <td>{volunteer.name}</td>
-                            <td>{sheet.volunteers.some((v) => v.id === volunteer.id) ? "Present" : "Absent"}</td>
+                            <td>
+                                {sheet.volunteers.some((v) => v.id === volunteer.id) ? <PresentTag /> : <AbsentTag />}
+                            </td>
                             <td>
                                 <a
                                     href={`/attendance/${sheet.id}/toggle?volunteerId=${volunteer.id}`}
@@ -50,6 +56,10 @@ export default function RecordAttendancePage({
                     ))}
                 </tbody>
             </table>
+
+            <p>
+                There are <b>{volunteers.length - sheet.volunteers.length}</b> volunteers missing.
+            </p>
         </div>
     );
 }
