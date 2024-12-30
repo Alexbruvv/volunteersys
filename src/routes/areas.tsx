@@ -42,7 +42,7 @@ areas.get("/:id", authMiddleware("CONFIGURE_AREAS"), async (c) => {
         where: {
             id: c.req.param("id"),
         },
-        include: { owners: true },
+        include: { owners: true, roles: true },
     });
     const users = await db.user.findMany();
 

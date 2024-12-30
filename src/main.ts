@@ -9,6 +9,7 @@ import { volunteers } from "./routes/volunteers";
 import { areas } from "./routes/areas";
 import { createElement } from "hono/jsx";
 import ErrorPage, { errorPage } from "./app/_layout/ErrorPage";
+import { roles } from "./routes/roles";
 
 const app = new Hono();
 app.use("/static/*", serveStatic({ root: "./" }));
@@ -17,6 +18,7 @@ app.route("/auth", auth);
 app.route("/attendance", attendance);
 app.route("/volunteers", volunteers);
 app.route("/areas", areas);
+app.route("/areas", roles);
 app.route("/users", users);
 app.route("/groups", groups);
 

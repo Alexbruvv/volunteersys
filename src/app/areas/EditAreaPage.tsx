@@ -1,10 +1,16 @@
-import type { Area, User } from "@prisma/client";
+import type { Area, Role, User } from "@prisma/client";
 import { Fragment } from "hono/jsx/jsx-runtime";
 
-export default function EditAreaPage({ area, users }: { area: Area & { owners: User[] }; users: User[] }) {
+export default function EditAreaPage({
+    area,
+    users,
+}: {
+    area: Area & { owners: User[]; roles: Role[] };
+    users: User[];
+}) {
     return (
         <div className="container">
-            <h3 className="title is-3">Create area</h3>
+            <h3 className="title is-3">Edit area</h3>
 
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
@@ -13,13 +19,15 @@ export default function EditAreaPage({ area, users }: { area: Area & { owners: U
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">
-                            Create area
+                            {area.name}
                         </a>
                     </li>
                 </ul>
             </nav>
 
-            <form method="post">
+            <form class="box" method="post">
+                <h5 className="title is-5">General</h5>
+
                 <div className="field">
                     <label className="label">Name</label>
                     <div className="control">
@@ -76,6 +84,42 @@ export default function EditAreaPage({ area, users }: { area: Area & { owners: U
                     </div>
                 </div>
             </form>
+
+            <div className="box">
+                <h5 className="title is-5">
+                    Roles
+                    <a href={`/areas/${area.id}/roles/new`} className="button is-primary is-pulled-right">
+                        Create role
+                    </a>
+                </h5>
+
+                <table className="table is-fullwidth is-striped is-hoverable">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%">Name</th>
+                            <th style="width: 50%">Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {area.roles.map((role) => (
+                            <tr>
+                                <td>{role.name}</td>
+                                <td>
+                                    {role.description} {role.guidanceUri && <a href={role.guidanceUri}>(Guidance)</a>}
+                                </td>
+                                <td>
+                                    <a href={`/areas/${area.id}/roles/${role.id}`}>Edit</a>
+                                    {" | "}
+                                    <a href={`/areas/${area.id}/roles/${role.id}/delete`} className="has-text-danger">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
