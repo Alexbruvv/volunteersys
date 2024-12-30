@@ -5,6 +5,7 @@ import AttendanceSheetsPage from "../app/attendance/AttendanceSheetsPage";
 import { authMiddleware } from "./auth";
 import CreateAttendanceSheetPage from "../app/attendance/CreateAttendanceSheetPage";
 import RecordAttendancePage from "../app/attendance/RecordAttendancePage";
+import EditAttendanceSheetPage from "../app/attendance/EditAttendanceSheetPage";
 
 export const attendance = new Hono();
 
@@ -29,6 +30,28 @@ attendance.get("/", authMiddleware("RECORD_ATTENDANCE", "CONFIGURE_ATTENDANCE_SH
     const sheets = await db.attendanceSheet.findMany({ orderBy: { startDate: "asc" } });
 
     return renderPage(c, <AttendanceSheetsPage sheets={sheets} />);
+});
+
+attendance.get("/:id", authMiddleware("CONFIGURE_ATTENDANCE_SHEETS"), async (c) => {
+    const sheet = await db.attendanceSheet.findFirstOrThrow({
+        where: { id: c.req.param("id") },
+    });
+
+    return renderPage(c, <EditAttendanceSheetPage attendanceSheet={sheet} />);
+});
+
+attendance.post("/:id", authMiddleware("CONFIGURE_ATTENDANCE_SHEETS"), async (c) => {
+    const formData = await c.req.formData();
+
+    await db.attendanceSheet.update({
+        where: { id: c.req.param("id") },
+        data: {
+            name: formData.get("name")!.toString(),
+            startDate: new Date(formData.get("startDate")!.toString()),
+        },
+    });
+
+    return c.redirect("/attendance");
 });
 
 attendance.get("/:id/record", authMiddleware("RECORD_ATTENDANCE"), async (c) => {
