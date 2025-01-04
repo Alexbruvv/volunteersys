@@ -6,6 +6,7 @@ import { authMiddleware } from "./auth";
 import CreateAttendanceSheetPage from "../app/attendance/CreateAttendanceSheetPage";
 import RecordAttendancePage from "../app/attendance/RecordAttendancePage";
 import EditAttendanceSheetPage from "../app/attendance/EditAttendanceSheetPage";
+import DeleteAttendanceSheetPage from "../app/attendance/DeleteAttendanceSheetPage";
 
 export const attendance = new Hono();
 
@@ -95,5 +96,21 @@ attendance.get("/:id/toggle", authMiddleware("RECORD_ATTENDANCE"), async (c) => 
     }
 
     return c.redirect(`/attendance/${c.req.param("id")}/record`);
+});
+
+attendance.get("/:id/delete", authMiddleware("CONFIGURE_ATTENDANCE_SHEETS"), async (c) => {
+    const sheet = await db.attendanceSheet.findFirstOrThrow({
+        where: { id: c.req.param("id") },
+    });
+
+    return renderPage(c, <DeleteAttendanceSheetPage attendanceSheet={sheet} />);
+});
+
+attendance.post("/:id/delete", authMiddleware("CONFIGURE_ATTENDANCE_SHEETS"), async (c) => {
+    await db.attendanceSheet.delete({
+        where: { id: c.req.param("id") },
+    });
+
+    return c.redirect("/attendance");
 });
 
