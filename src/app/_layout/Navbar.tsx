@@ -4,7 +4,8 @@ import type { Permission } from "@prisma/client";
 import { hasPermission } from "../../utils/permissions";
 
 const ATTENDANCE_PERMISSIONS: Permission[] = ["CONFIGURE_ATTENDANCE_SHEETS", "RECORD_ATTENDANCE"];
-const CONFIG_PERMISSIONS: Permission[] = ["CONFIGURE_AREAS"];
+const VOLUNTEERS_PERMISSIONS: Permission[] = ["MANAGE_VOLUNTEERS"];
+const CONFIG_PERMISSIONS: Permission[] = ["CONFIGURE_AREAS", "CONFIGURE_SCHEDULE_BLOCKS"];
 const SYSTEM_PERMISSIONS: Permission[] = ["MANAGE_USERS", "MANAGE_GROUPS"];
 
 export default function Navbar() {
@@ -47,10 +48,18 @@ export default function Navbar() {
                         </a>
                     )}
 
-                    {hasPermission(user, "MANAGE_VOLUNTEERS") && (
-                        <a href="/volunteers" className="navbar-item">
-                            Volunteers
-                        </a>
+                    {VOLUNTEERS_PERMISSIONS.some((permission) => hasPermission(user, permission)) && (
+                        <div className="navbar-item has-dropdown is-hoverable">
+                            <a className="navbar-link">Volunteers</a>
+
+                            <div className="navbar-dropdown">
+                                {hasPermission(user, "MANAGE_VOLUNTEERS") && (
+                                    <a href="/volunteers" className="navbar-item">
+                                        Volunteers
+                                    </a>
+                                )}
+                            </div>
+                        </div>
                     )}
 
                     {CONFIG_PERMISSIONS.some((permission) => hasPermission(user, permission)) && (
@@ -61,6 +70,11 @@ export default function Navbar() {
                                 {hasPermission(user, "CONFIGURE_AREAS") && (
                                     <a href="/areas" className="navbar-item">
                                         Areas
+                                    </a>
+                                )}
+                                {hasPermission(user, "CONFIGURE_SCHEDULE_BLOCKS") && (
+                                    <a href="/schedule-blocks" className="navbar-item">
+                                        Schedule blocks
                                     </a>
                                 )}
                             </div>

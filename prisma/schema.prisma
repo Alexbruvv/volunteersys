@@ -37,6 +37,7 @@ model Account {
 
 enum Permission {
   CONFIGURE_AREAS
+  CONFIGURE_SCHEDULE_BLOCKS
 
   MANAGE_GROUPS
   MANAGE_USERS

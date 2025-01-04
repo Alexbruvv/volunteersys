@@ -1,19 +1,19 @@
-import type { AttendanceSheet } from "@prisma/client";
+import type { ScheduleBlock } from "@prisma/client";
 import { DateTime } from "luxon";
 
-export default function EditAttendanceSheetPage({ attendanceSheet }: { attendanceSheet: AttendanceSheet }) {
+export default function EditScheduleBlockPage({ scheduleBlock }: { scheduleBlock: ScheduleBlock }) {
     return (
         <div className="container">
-            <h3 className="title is-3">{attendanceSheet.name}</h3>
+            <h3 className="title is-3">{scheduleBlock.name}</h3>
 
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/attendance">Attendance sheets</a>
+                        <a href="/schedule-blocks">Schedule blocks</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">
-                            {attendanceSheet.name}
+                            {scheduleBlock.name}
                         </a>
                     </li>
                 </ul>
@@ -28,20 +28,33 @@ export default function EditAttendanceSheetPage({ attendanceSheet }: { attendanc
                             type="text"
                             className="input"
                             placeholder="Name"
-                            value={attendanceSheet.name}
+                            value={scheduleBlock.name}
                             required
                         />
                     </div>
                 </div>
 
                 <div className="field">
-                    <label className="label">Start date</label>
+                    <label className="label">Start time</label>
                     <div className="control">
                         <input
+                            name="startTime"
                             type="datetime-local"
-                            name="startDate"
                             className="input"
-                            value={DateTime.fromJSDate(attendanceSheet.startDate).toISO()?.slice(0, 16)}
+                            value={DateTime.fromJSDate(scheduleBlock.startTime).toISO()?.slice(0, 16)}
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div className="field">
+                    <label className="label">End time</label>
+                    <div className="control">
+                        <input
+                            name="endTime"
+                            type="datetime-local"
+                            className="input"
+                            value={DateTime.fromJSDate(scheduleBlock.endTime).toISO()?.slice(0, 16)}
                             required
                         />
                     </div>

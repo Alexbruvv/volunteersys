@@ -7,9 +7,15 @@ import { users } from "./routes/users";
 import { attendance } from "./routes/attendance";
 import { volunteers } from "./routes/volunteers";
 import { areas } from "./routes/areas";
-import { createElement } from "hono/jsx";
-import ErrorPage, { errorPage } from "./app/_layout/ErrorPage";
+import { errorPage } from "./app/_layout/ErrorPage";
 import { roles } from "./routes/roles";
+import { scheduleBlocks } from "./routes/scheduleBlocks";
+import { Settings } from "luxon";
+
+process.env.TZ = "Europe/London";
+
+Settings.defaultZone = "Europe/London";
+Settings.defaultLocale = "en-GB";
 
 const app = new Hono();
 app.use("/static/*", serveStatic({ root: "./" }));
@@ -19,6 +25,7 @@ app.route("/attendance", attendance);
 app.route("/volunteers", volunteers);
 app.route("/areas", areas);
 app.route("/areas", roles);
+app.route("/schedule-blocks", scheduleBlocks);
 app.route("/users", users);
 app.route("/groups", groups);
 
