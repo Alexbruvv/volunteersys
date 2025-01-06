@@ -58,6 +58,11 @@ export default function Navbar() {
                                         Volunteers
                                     </a>
                                 )}
+                                {hasPermission(user, "ASSIGN_VOLUNTEERS") && (
+                                    <a href="/volunteers/assignments" className="navbar-item">
+                                        Assignments
+                                    </a>
+                                )}
                             </div>
                         </div>
                     )}

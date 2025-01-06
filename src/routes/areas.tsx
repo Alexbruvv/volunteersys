@@ -6,8 +6,10 @@ import AreasPage from "../app/areas/AreasPage";
 import CreateAreaPage from "../app/areas/CreateAreaPage";
 import EditAreaPage from "../app/areas/EditAreaPage";
 import DeleteAreaPage from "../app/areas/DeleteAreaPage";
+import { roles } from "./roles";
 
 export const areas = new Hono();
+areas.route("/", roles);
 
 areas.get("/new", authMiddleware("CONFIGURE_AREAS"), async (c) => {
     const users = await db.user.findMany();

@@ -3,11 +3,10 @@ import { authMiddleware } from "./auth";
 import { db } from "../db/db";
 import renderPage from "../utils/renderPage";
 import CreateRolePage from "../app/areas/roles/CreateRolePage";
-import { areas } from "./areas";
 import EditRolePage from "../app/areas/roles/EditRolePage";
 import DeleteRolePage from "../app/areas/roles/DeleteRolePage";
 
-export const roles = new Hono().basePath("/:id/roles");
+export const roles = new Hono();
 
 roles.get("/:id/roles/new", authMiddleware("CONFIGURE_AREAS"), async (c) => {
     const area = await db.area.findUniqueOrThrow({
@@ -36,7 +35,7 @@ roles.post("/:id/roles/new", authMiddleware("CONFIGURE_AREAS"), async (c) => {
     return c.redirect(`/areas/${c.req.param("id")}`);
 });
 
-areas.get("/:id/roles/:roleId", authMiddleware("CONFIGURE_AREAS"), async (c) => {
+roles.get("/:id/roles/:roleId", authMiddleware("CONFIGURE_AREAS"), async (c) => {
     const role = await db.role.findUniqueOrThrow({
         where: {
             id: c.req.param("roleId"),
@@ -47,7 +46,7 @@ areas.get("/:id/roles/:roleId", authMiddleware("CONFIGURE_AREAS"), async (c) => 
     return renderPage(c, <EditRolePage role={role} />);
 });
 
-areas.post("/:id/roles/:roleId", authMiddleware("CONFIGURE_AREAS"), async (c) => {
+roles.post("/:id/roles/:roleId", authMiddleware("CONFIGURE_AREAS"), async (c) => {
     const formData = await c.req.formData();
 
     await db.role.update({
@@ -64,7 +63,7 @@ areas.post("/:id/roles/:roleId", authMiddleware("CONFIGURE_AREAS"), async (c) =>
     return c.redirect(`/areas/${c.req.param("id")}`);
 });
 
-areas.get("/:id/roles/:roleId/delete", authMiddleware("CONFIGURE_AREAS"), async (c) => {
+roles.get("/:id/roles/:roleId/delete", authMiddleware("CONFIGURE_AREAS"), async (c) => {
     const role = await db.role.findUniqueOrThrow({
         where: {
             id: c.req.param("roleId"),
@@ -74,7 +73,7 @@ areas.get("/:id/roles/:roleId/delete", authMiddleware("CONFIGURE_AREAS"), async 
     return renderPage(c, <DeleteRolePage role={role} />);
 });
 
-areas.post("/:id/roles/:roleId/delete", authMiddleware("CONFIGURE_AREAS"), async (c) => {
+roles.post("/:id/roles/:roleId/delete", authMiddleware("CONFIGURE_AREAS"), async (c) => {
     await db.role.delete({
         where: {
             id: c.req.param("roleId"),

@@ -8,7 +8,6 @@ import { attendance } from "./routes/attendance";
 import { volunteers } from "./routes/volunteers";
 import { areas } from "./routes/areas";
 import { errorPage } from "./app/_layout/ErrorPage";
-import { roles } from "./routes/roles";
 import { scheduleBlocks } from "./routes/scheduleBlocks";
 import { Settings } from "luxon";
 
@@ -24,7 +23,6 @@ app.route("/auth", auth);
 app.route("/attendance", attendance);
 app.route("/volunteers", volunteers);
 app.route("/areas", areas);
-app.route("/areas", roles);
 app.route("/schedule-blocks", scheduleBlocks);
 app.route("/users", users);
 app.route("/groups", groups);
