@@ -57,6 +57,17 @@ volunteers.post("/assignments", authMiddleware("ASSIGN_VOLUNTEERS"), async (c) =
 
     if (data.queuedUpdates) {
         for (const update of data.queuedUpdates) {
+            if (update.areaId === "") {
+                await db.scheduleBlockAssignment.deleteMany({
+                    where: {
+                        volunteerId: update.volunteerId,
+                        scheduleBlockId: update.scheduleBlockId,
+                    },
+                });
+
+                continue;
+            }
+
             const existingAssignment = await db.scheduleBlockAssignment.findFirst({
                 where: {
                     volunteerId: update.volunteerId,
