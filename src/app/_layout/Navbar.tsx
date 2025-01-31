@@ -16,7 +16,7 @@ export default function Navbar() {
     }
 
     return (
-        <nav className="navbar is-primary mb-5" role="navigation" aria-label="main navigation">
+        <nav className="navbar is-warning mb-5" role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
                 <a className="navbar-item" href="/">
                     <b>Volunteer System</b>

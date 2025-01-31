@@ -1,5 +1,4 @@
-import { Permission, type Volunteer } from "@prisma/client";
-import { Fragment } from "hono/jsx/jsx-runtime";
+import { type Volunteer } from "@prisma/client";
 
 export default function EditVolunteerPage({ volunteer }: { volunteer: Volunteer }) {
     return (
@@ -57,100 +56,6 @@ export default function EditVolunteerPage({ volunteer }: { volunteer: Volunteer 
                             placeholder="Email address"
                             value={volunteer.emailAddress}
                         />
-                    </div>
-                </div>
-
-                <div className="field">
-                    <label className="label">Active roles (1-4)</label>
-                    <div className="control">
-                        <input
-                            type="number"
-                            name="consActiveRoles"
-                            className="input"
-                            placeholder="Active roles"
-                            min={1}
-                            max={4}
-                            value={volunteer.consActiveRoles}
-                        />
-                    </div>
-                    <p className="help">4 = happy with active roles</p>
-                </div>
-
-                <div className="field">
-                    <label className="label">Kit knowledge (1-4)</label>
-                    <div className="control">
-                        <input
-                            type="number"
-                            name="consKitKnowledge"
-                            className="input"
-                            placeholder="Kit knowledge"
-                            min={1}
-                            max={4}
-                            value={volunteer.consKitKnowledge}
-                        />
-                    </div>
-                    <p className="help">4 = very knowledgeable on the kit</p>
-                </div>
-
-                <div className="field">
-                    <label className="label">Long shifts (1-4)</label>
-                    <div className="control">
-                        <input
-                            type="number"
-                            name="consLongShifts"
-                            className="input"
-                            placeholder="Long shifts"
-                            min={1}
-                            max={4}
-                            value={volunteer.consLongShifts}
-                        />
-                    </div>
-                    <p className="help">4 = happy with long shifts</p>
-                </div>
-
-                <div className="field">
-                    <label className="label">Quiet roles (1-4)</label>
-                    <div className="control">
-                        <input
-                            type="number"
-                            name="consQuietRoles"
-                            className="input"
-                            placeholder="Quiet roles"
-                            min={1}
-                            max={4}
-                            value={volunteer.consQuietRoles}
-                        />
-                    </div>
-                    <p className="help">4 = happy with quiet roles</p>
-                </div>
-
-                <div className="field">
-                    <label className="label">Public speaking</label>
-                    <div className="control">
-                        <label className="checkbox">
-                            <input
-                                type="checkbox"
-                                name="consPublicSpeaking"
-                                value="true"
-                                checked={volunteer.consPublicSpeaking}
-                            />{" "}
-                            Happy with public speaking
-                        </label>
-                    </div>
-                </div>
-
-                <div className="field">
-                    <label className="label">Miss finals</label>
-                    <div className="control">
-                        <label className="checkbox">
-                            <input
-                                type="checkbox"
-                                name="consMissFinals"
-                                value="true"
-                                checked={volunteer.consMissFinals}
-                            />{" "}
-                            Happy to miss finals
-                        </label>
                     </div>
                 </div>
 

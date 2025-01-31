@@ -68,12 +68,6 @@ export default function AssignmentsPage({
                             </tr>
                             <tr>
                                 <td colspan={1 + scheduleBlocks.length}>
-                                    <b>Considerations: </b>
-                                    Active roles ({volunteer.consActiveRoles}), kit knowledge (
-                                    {volunteer.consKitKnowledge}), long shifts ({volunteer.consLongShifts}), quiet roles
-                                    ({volunteer.consQuietRoles}), public speaking (
-                                    {volunteer.consPublicSpeaking ? "Yes" : "No"}), miss finals (
-                                    {volunteer.consMissFinals ? "Yes" : "No"})
                                     {volunteer.notes && (
                                         <Fragment>
                                             <br />

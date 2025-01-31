@@ -63,13 +63,6 @@ model Volunteer {
   badgePronouns String?
   emailAddress  String
 
-  consActiveRoles    Int // 1-4; 4 = happy with active roles
-  consKitKnowledge   Int // 1-4; 4 = very knowledgeable
-  consLongShifts     Int // 1-4; 4 = happy with long shifts
-  consQuietRoles     Int // 1-4; 4 = happy with quiet roles
-  consPublicSpeaking Boolean // true = happy to do public speaking
-  consMissFinals     Boolean // true = happy to miss finals
-
   notes String?
 
   presentAttendanceSheets AttendanceSheet[]
