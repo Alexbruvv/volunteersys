@@ -38,6 +38,7 @@ model Account {
 enum Permission {
   CONFIGURE_AREAS
   CONFIGURE_SCHEDULE_BLOCKS
+  CONFIGURE_SCHEDULES
 
   MANAGE_GROUPS
   MANAGE_USERS
@@ -132,6 +133,9 @@ model Schedule {
 model ScheduleSlot {
   id   String @id @default(cuid())
   name String
+
+  startTime DateTime
+  endTime   DateTime
 
   scheduleId String
   schedule   Schedule @relation(fields: [scheduleId], references: [id])

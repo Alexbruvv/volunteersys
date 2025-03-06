@@ -10,6 +10,7 @@ import { areas } from "./routes/areas";
 import { errorPage } from "./app/_layout/ErrorPage";
 import { scheduleBlocks } from "./routes/scheduleBlocks";
 import { Settings } from "luxon";
+import { schedules } from "./routes/schedules";
 
 process.env.TZ = "Europe/London";
 
@@ -24,6 +25,7 @@ app.route("/attendance", attendance);
 app.route("/volunteers", volunteers);
 app.route("/areas", areas);
 app.route("/schedule-blocks", scheduleBlocks);
+app.route("/schedules", schedules);
 app.route("/users", users);
 app.route("/groups", groups);
 

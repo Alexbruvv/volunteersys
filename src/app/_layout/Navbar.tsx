@@ -5,7 +5,7 @@ import { hasPermission } from "../../utils/permissions";
 
 const ATTENDANCE_PERMISSIONS: Permission[] = ["CONFIGURE_ATTENDANCE_SHEETS", "RECORD_ATTENDANCE"];
 const VOLUNTEERS_PERMISSIONS: Permission[] = ["MANAGE_VOLUNTEERS"];
-const CONFIG_PERMISSIONS: Permission[] = ["CONFIGURE_AREAS", "CONFIGURE_SCHEDULE_BLOCKS"];
+const CONFIG_PERMISSIONS: Permission[] = ["CONFIGURE_AREAS", "CONFIGURE_SCHEDULE_BLOCKS", "CONFIGURE_SCHEDULES"];
 const SYSTEM_PERMISSIONS: Permission[] = ["MANAGE_USERS", "MANAGE_GROUPS"];
 
 export default function Navbar() {
@@ -80,6 +80,11 @@ export default function Navbar() {
                                 {hasPermission(user, "CONFIGURE_SCHEDULE_BLOCKS") && (
                                     <a href="/schedule-blocks" className="navbar-item">
                                         Schedule blocks
+                                    </a>
+                                )}
+                                {hasPermission(user, "CONFIGURE_SCHEDULES") && (
+                                    <a href="/schedules" className="navbar-item">
+                                        Schedules
                                     </a>
                                 )}
                             </div>
