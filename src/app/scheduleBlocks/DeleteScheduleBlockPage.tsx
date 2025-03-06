@@ -1,4 +1,4 @@
-import type { AttendanceSheet, ScheduleBlock } from "@prisma/client";
+import type { ScheduleBlock } from "@prisma/client";
 
 export default function DeleteScheduleBlockPage({ scheduleBlock }: { scheduleBlock: ScheduleBlock }) {
     return (

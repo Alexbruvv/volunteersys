@@ -1,4 +1,4 @@
-import type { Group, User, Volunteer } from "@prisma/client";
+import type { Volunteer } from "@prisma/client";
 
 export default function VolunteersPage({ volunteers }: { volunteers: Volunteer[] }) {
     return (

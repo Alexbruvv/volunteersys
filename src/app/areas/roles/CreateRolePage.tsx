@@ -1,5 +1,4 @@
 import type { Area } from "@prisma/client";
-import { Fragment } from "hono/jsx/jsx-runtime";
 
 export default function CreateRolePage({ area }: { area: Area }) {
     return (

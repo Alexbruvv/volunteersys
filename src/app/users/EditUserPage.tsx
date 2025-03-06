@@ -1,4 +1,4 @@
-import { Permission, type Group, type User } from "@prisma/client";
+import { type Group, type User } from "@prisma/client";
 import { Fragment } from "hono/jsx/jsx-runtime";
 
 export default function EditUserPage({ user, groups }: { user: User & { groups: Group[] }; groups: Group[] }) {

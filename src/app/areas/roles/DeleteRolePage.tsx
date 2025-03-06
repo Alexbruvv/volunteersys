@@ -1,4 +1,4 @@
-import type { Area, Group, Role } from "@prisma/client";
+import type { Role } from "@prisma/client";
 
 export default function DeleteRolePage({ role }: { role: Role }) {
     return (

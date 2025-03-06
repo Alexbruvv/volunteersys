@@ -106,7 +106,7 @@ auth.get(
             return c.redirect("/");
         }
 
-        const user = await db.$transaction(async (tx) => {
+        await db.$transaction(async (tx) => {
             const user = await tx.user.create({
                 data: {
                     name: providerUser.name!,

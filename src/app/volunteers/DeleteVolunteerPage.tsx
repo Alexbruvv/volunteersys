@@ -1,4 +1,4 @@
-import type { Group, Volunteer } from "@prisma/client";
+import type { Volunteer } from "@prisma/client";
 
 export default function DeleteVolunteerPage({ volunteer }: { volunteer: Volunteer }) {
     return (

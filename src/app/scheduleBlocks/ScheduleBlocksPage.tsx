@@ -1,4 +1,4 @@
-import type { Area, Group, ScheduleBlock } from "@prisma/client";
+import type { ScheduleBlock } from "@prisma/client";
 import { DateTime } from "luxon";
 
 export default function ScheduleBlocksPage({ scheduleBlocks }: { scheduleBlocks: ScheduleBlock[] }) {

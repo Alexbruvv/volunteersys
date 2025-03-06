@@ -1,4 +1,4 @@
-import type { AttendanceSheet, Group } from "@prisma/client";
+import type { AttendanceSheet } from "@prisma/client";
 import { useContext } from "hono/jsx";
 import { UserContext } from "../context";
 import { hasPermission } from "../../utils/permissions";

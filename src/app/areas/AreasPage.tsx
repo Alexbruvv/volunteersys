@@ -1,4 +1,4 @@
-import type { Area, Group } from "@prisma/client";
+import type { Area } from "@prisma/client";
 
 export default function AreasPage({ areas }: { areas: Area[] }) {
     return (

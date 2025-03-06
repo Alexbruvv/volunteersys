@@ -1,5 +1,4 @@
 import type { Area, Role } from "@prisma/client";
-import { Fragment } from "hono/jsx/jsx-runtime";
 
 export default function EditRolePage({ role }: { role: Role & { area: Area } }) {
     return (

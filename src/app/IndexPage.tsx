@@ -1,7 +1,3 @@
-import { useContext } from "hono/jsx";
-import type { User } from "../db/schema/auth";
-import { UserContext } from "./context";
-
 export default function IndexPage() {
     return (
         <div className="container">
