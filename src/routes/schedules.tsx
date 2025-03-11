@@ -5,8 +5,10 @@ import renderPage from "../utils/renderPage";
 import SchedulesPage from "../app/schedules/SchedulesPage";
 import CreateSchedulePage from "../app/schedules/CreateSchedulePage";
 import EditSchedulePage from "../app/schedules/EditSchedulePage";
+import { slots } from "./slots";
 
 export const schedules = new Hono();
+schedules.route("/", slots);
 
 schedules.get("/", authMiddleware("CONFIGURE_SCHEDULES"), async (c) => {
     const schedules = await db.schedule.findMany();
@@ -33,7 +35,7 @@ schedules.post("/new", authMiddleware("CONFIGURE_SCHEDULES"), async (c) => {
 schedules.get("/:id", authMiddleware("CONFIGURE_SCHEDULES"), async (c) => {
     const schedule = await db.schedule.findUnique({
         where: { id: c.req.param("id") },
-        include: { slots: true },
+        include: { slots: { include: { scheduleBlock: true } } },
     });
 
     if (!schedule) {
@@ -55,3 +57,4 @@ schedules.post("/:id", authMiddleware("CONFIGURE_SCHEDULES"), async (c) => {
 
     return c.redirect("/schedules");
 });
+

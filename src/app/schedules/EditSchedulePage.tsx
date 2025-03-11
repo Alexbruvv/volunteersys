@@ -1,6 +1,11 @@
-import type { Schedule, ScheduleSlot } from "@prisma/client";
+import type { Schedule, ScheduleBlock, ScheduleSlot } from "@prisma/client";
+import { DateTime } from "luxon";
 
-export default function EditSchedulePage({ schedule }: { schedule: Schedule & { slots: ScheduleSlot[] } }) {
+export default function EditSchedulePage({
+    schedule,
+}: {
+    schedule: Schedule & { slots: Array<ScheduleSlot & { scheduleBlock: ScheduleBlock }> };
+}) {
     return (
         <div className="container">
             <h3 className="title is-3">Edit schedule</h3>
@@ -55,11 +60,37 @@ export default function EditSchedulePage({ schedule }: { schedule: Schedule & { 
                 <table className="table is-fullwidth is-striped is-hoverable">
                     <thead>
                         <tr>
-                            <th style="width: 25%">Name</th>
+                            <th style="width: 20%">Name</th>
+                            <th style="width: 20%">Start time</th>
+                            <th style="width: 20%">End time</th>
+                            <th style="width: 20%">Block</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        {schedule.slots
+                            .sort((a, b) => a.startTime.getUTCMilliseconds() - b.startTime.getUTCMilliseconds())
+                            .map((slot) => (
+                                <tr>
+                                    <td>{slot.name}</td>
+                                    <td>
+                                        {DateTime.fromJSDate(slot.startTime).toLocaleString(DateTime.DATETIME_SHORT)}
+                                    </td>
+                                    <td>{DateTime.fromJSDate(slot.endTime).toLocaleString(DateTime.DATETIME_SHORT)}</td>
+                                    <td>{slot.scheduleBlock.name}</td>
+                                    <td>
+                                        <a href={`/schedules/${schedule.id}/slots/${slot.id}`}>View/edit</a>
+                                        {" | "}
+                                        <a
+                                            href={`/schedules/${schedule.id}/slots/${slot.id}/delete`}
+                                            className="has-text-danger"
+                                        >
+                                            Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            ))}
+                    </tbody>
                 </table>
             </div>
         </div>

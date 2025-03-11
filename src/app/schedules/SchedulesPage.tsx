@@ -34,7 +34,7 @@ export default function SchedulesPage({ schedules }: { schedules: Schedule[] }) 
                             <td>
                                 <a href={`/schedules/${schedule.id}`}>View/edit</a>
                                 {" | "}
-                                <a href={`/scheduless/${schedule.id}/delete`} className="has-text-danger">
+                                <a href={`/schedules/${schedule.id}/delete`} className="has-text-danger">
                                     Delete
                                 </a>
                             </td>
