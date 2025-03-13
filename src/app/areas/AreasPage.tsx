@@ -1,6 +1,6 @@
-import type { Area } from "@prisma/client";
+import type { Area, Schedule } from "@prisma/client";
 
-export default function AreasPage({ areas }: { areas: Area[] }) {
+export default function AreasPage({ areas }: { areas: Array<Area & { schedule: Schedule }> }) {
     return (
         <div className="container">
             <h3 className="title is-3">
@@ -23,7 +23,8 @@ export default function AreasPage({ areas }: { areas: Area[] }) {
             <table className="table is-fullwidth is-striped is-hoverable">
                 <thead>
                     <tr>
-                        <th style="width: 80%">Name</th>
+                        <th style="width: 40%">Name</th>
+                        <th style="width: 40%">Schedule</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -31,6 +32,7 @@ export default function AreasPage({ areas }: { areas: Area[] }) {
                     {areas.map((area) => (
                         <tr>
                             <td>{area.name}</td>
+                            <td>{area.schedule.name}</td>
                             <td>
                                 <a href={`/areas/${area.id}`}>View/edit</a>
                                 {" | "}

@@ -10,7 +10,7 @@
         "@types/luxon": "^3.4.2",
         "@types/pg": "^8.11.10",
         "eslint": "^9.21.0",
-        "prisma": "^6.4.1",
+        "prisma": "^6.5.0",
         "tsx": "^4.19.2",
         "typescript-eslint": "^8.26.0"
     },
@@ -19,7 +19,7 @@
     },
     "dependencies": {
         "@hono/oauth-providers": "^0.6.2",
-        "@prisma/client": "^6.4.1",
+        "@prisma/client": "^6.5.0",
         "hono": "^4.6.14",
         "luxon": "^3.5.0",
         "pg": "^8.13.1",

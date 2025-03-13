@@ -1,12 +1,14 @@
-import type { Area, Role, User } from "@prisma/client";
+import type { Area, Role, Schedule, User } from "@prisma/client";
 import { Fragment } from "hono/jsx/jsx-runtime";
 
 export default function EditAreaPage({
     area,
     users,
+    schedules,
 }: {
     area: Area & { owners: User[]; roles: Role[] };
     users: User[];
+    schedules: Schedule[];
 }) {
     return (
         <div className="container">
@@ -53,6 +55,19 @@ export default function EditAreaPage({
                             value={area.description}
                             required
                         />
+                    </div>
+                </div>
+
+                <div className="field">
+                    <label className="label">Schedule</label>
+                    <div className="select">
+                        <select name="scheduleId">
+                            {schedules.map((schedule) => (
+                                <option value={schedule.id} selected={area.scheduleId === schedule.id}>
+                                    {schedule.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                 </div>
 

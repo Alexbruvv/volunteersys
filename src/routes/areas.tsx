@@ -13,8 +13,9 @@ areas.route("/", roles);
 
 areas.get("/new", authMiddleware("CONFIGURE_AREAS"), async (c) => {
     const users = await db.user.findMany();
+    const schedules = await db.schedule.findMany();
 
-    return renderPage(c, <CreateAreaPage users={users} />);
+    return renderPage(c, <CreateAreaPage users={users} schedules={schedules} />);
 });
 
 areas.post("/new", authMiddleware("CONFIGURE_AREAS"), async (c) => {
@@ -24,6 +25,7 @@ areas.post("/new", authMiddleware("CONFIGURE_AREAS"), async (c) => {
         data: {
             name: formData.get("name")!.toString(),
             description: formData.get("description")!.toString(),
+            scheduleId: formData.get("scheduleId")!.toString(),
             owners: {
                 connect: Array.from(formData.getAll("owners")!).map((id) => ({ id: id.toString() })),
             },
@@ -34,7 +36,10 @@ areas.post("/new", authMiddleware("CONFIGURE_AREAS"), async (c) => {
 });
 
 areas.get("/", authMiddleware("CONFIGURE_AREAS"), async (c) => {
-    const areas = await db.area.findMany();
+    const areas = await db.area.findMany({
+        orderBy: { name: "asc" },
+        include: { schedule: true },
+    });
 
     return renderPage(c, <AreasPage areas={areas} />);
 });
@@ -47,8 +52,9 @@ areas.get("/:id", authMiddleware("CONFIGURE_AREAS"), async (c) => {
         include: { owners: true, roles: true },
     });
     const users = await db.user.findMany();
+    const schedules = await db.schedule.findMany();
 
-    return renderPage(c, <EditAreaPage area={area} users={users} />);
+    return renderPage(c, <EditAreaPage area={area} users={users} schedules={schedules} />);
 });
 
 areas.post("/:id", authMiddleware("CONFIGURE_AREAS"), async (c) => {
@@ -61,6 +67,7 @@ areas.post("/:id", authMiddleware("CONFIGURE_AREAS"), async (c) => {
         data: {
             name: formData.get("name")!.toString(),
             description: formData.get("description")!.toString(),
+            scheduleId: formData.get("scheduleId")!.toString(),
             owners: {
                 set: Array.from(formData.getAll("owners")!).map((id) => ({ id: id.toString() })),
             },

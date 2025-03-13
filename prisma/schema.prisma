@@ -68,6 +68,7 @@ model Volunteer {
 
   presentAttendanceSheets AttendanceSheet[]
   assignments             ScheduleBlockAssignment[]
+  slotAssignments         ScheduleSlotAssignment[]
 }
 
 model AttendanceSheet {
@@ -83,6 +84,9 @@ model Area {
   name        String
   description String
 
+  scheduleId String
+  schedule   Schedule @relation(fields: [scheduleId], references: [id])
+
   owners User[]
   roles  Role[]
 
@@ -95,8 +99,9 @@ model Role {
   description String
   guidanceUri String
 
-  areaId String
-  area   Area   @relation(fields: [areaId], references: [id])
+  areaId      String
+  area        Area                     @relation(fields: [areaId], references: [id])
+  assignments ScheduleSlotAssignment[]
 }
 
 model ScheduleBlock {
@@ -128,6 +133,7 @@ model Schedule {
   name String
 
   slots ScheduleSlot[]
+  areas Area[]
 }
 
 model ScheduleSlot {
@@ -141,5 +147,19 @@ model ScheduleSlot {
   schedule   Schedule @relation(fields: [scheduleId], references: [id])
 
   scheduleBlockId String
-  scheduleBlock   ScheduleBlock @relation(fields: [scheduleBlockId], references: [id])
+  scheduleBlock   ScheduleBlock            @relation(fields: [scheduleBlockId], references: [id])
+  assignments     ScheduleSlotAssignment[]
+}
+
+model ScheduleSlotAssignment {
+  id String @id @default(cuid())
+
+  scheduleSlotId String
+  scheduleSlot   ScheduleSlot @relation(fields: [scheduleSlotId], references: [id])
+
+  volunteerId String
+  volunteer   Volunteer @relation(fields: [volunteerId], references: [id])
+
+  roleId String
+  role   Role   @relation(fields: [roleId], references: [id])
 }

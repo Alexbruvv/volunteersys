@@ -1,7 +1,7 @@
-import type { User } from "@prisma/client";
+import type { Schedule, User } from "@prisma/client";
 import { Fragment } from "hono/jsx/jsx-runtime";
 
-export default function CreateAreaPage({ users }: { users: User[] }) {
+export default function CreateAreaPage({ users, schedules }: { users: User[]; schedules: Schedule[] }) {
     return (
         <div className="container">
             <h3 className="title is-3">Create area</h3>
@@ -31,6 +31,17 @@ export default function CreateAreaPage({ users }: { users: User[] }) {
                     <label className="label">Description</label>
                     <div className="control">
                         <input name="description" type="text" className="input" placeholder="Description" required />
+                    </div>
+                </div>
+
+                <div className="field">
+                    <label className="label">Schedule</label>
+                    <div className="select">
+                        <select name="scheduleId">
+                            {schedules.map((schedule) => (
+                                <option value={schedule.id}>{schedule.name}</option>
+                            ))}
+                        </select>
                     </div>
                 </div>
 
