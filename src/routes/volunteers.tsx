@@ -8,6 +8,8 @@ import EditVolunteerPage from "../app/volunteers/EditVolunteerPage";
 import DeleteVolunteerPage from "../app/volunteers/DeleteVolunteerPage";
 import AssignmentsPage from "../app/volunteers/AssignmentsPage";
 import url from "../utils/url";
+import SelectRoleAssignmentsAreaPage from "../app/volunteers/SelectRoleAssignmentsAreaPage";
+import RoleAssignmentsPage from "../app/volunteers/RoleAssignmentsPage";
 
 export const volunteers = new Hono();
 
@@ -92,6 +94,36 @@ volunteers.post("/assignments", authMiddleware("ASSIGN_VOLUNTEERS"), async (c) =
     }
 
     return c.json({ success: true });
+});
+
+volunteers.get("/role-assignments", authMiddleware("ASSIGN_VOLUNTEERS"), async (c) => {
+    const areas = await db.area.findMany({ orderBy: { name: "asc" } });
+
+    return renderPage(c, <SelectRoleAssignmentsAreaPage areas={areas} />);
+});
+
+volunteers.get("/role-assignments/:areaId", authMiddleware("ASSIGN_VOLUNTEERS"), async (c) => {
+    const area = await db.area.findUniqueOrThrow({
+        where: { id: c.req.param("areaId") },
+        include: {
+            schedule: {
+                include: {
+                    slots: {
+                        orderBy: { startTime: "asc" },
+                    },
+                },
+            },
+            assignments: true,
+            roles: true,
+            owners: true,
+        },
+    });
+
+    const volunteers = await db.volunteer.findMany({
+        orderBy: { name: "asc" },
+    });
+
+    return renderPage(c, <RoleAssignmentsPage area={area} volunteers={volunteers} />);
 });
 
 volunteers.get("/:id", authMiddleware("MANAGE_VOLUNTEERS"), async (c) => {
