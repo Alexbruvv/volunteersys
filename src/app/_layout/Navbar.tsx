@@ -1,4 +1,4 @@
-import { useContext } from "hono/jsx";
+import { Fragment, useContext } from "hono/jsx";
 import { UserContext } from "../context";
 import type { Permission } from "@prisma/client";
 import { hasPermission } from "../../utils/permissions";
@@ -59,9 +59,15 @@ export default function Navbar() {
                                     </a>
                                 )}
                                 {hasPermission(user, "ASSIGN_VOLUNTEERS") && (
-                                    <a href="/volunteers/assignments" className="navbar-item">
-                                        Assignments
-                                    </a>
+                                    <Fragment>
+                                        <a href="/volunteers/assignments" className="navbar-item">
+                                            Assignments
+                                        </a>
+
+                                        <a href="/volunteers/role-assignments" className="navbar-item">
+                                            Role assignments
+                                        </a>
+                                    </Fragment>
                                 )}
                             </div>
                         </div>

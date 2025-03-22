@@ -12,8 +12,8 @@ export const areas = new Hono();
 areas.route("/", roles);
 
 areas.get("/new", authMiddleware("CONFIGURE_AREAS"), async (c) => {
-    const users = await db.user.findMany();
-    const schedules = await db.schedule.findMany();
+    const users = await db.user.findMany({ orderBy: { name: "asc" } });
+    const schedules = await db.schedule.findMany({ orderBy: { name: "asc" } });
 
     return renderPage(c, <CreateAreaPage users={users} schedules={schedules} />);
 });

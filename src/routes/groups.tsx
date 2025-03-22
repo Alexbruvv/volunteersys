@@ -28,7 +28,7 @@ groups.post("/new", authMiddleware("MANAGE_GROUPS"), async (c) => {
 });
 
 groups.get("/", authMiddleware("MANAGE_GROUPS"), async (c) => {
-    const groups = await db.group.findMany();
+    const groups = await db.group.findMany({ orderBy: { name: "asc" } });
 
     return renderPage(c, <GroupsPage groups={groups} />);
 });

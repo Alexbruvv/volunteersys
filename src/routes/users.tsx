@@ -9,14 +9,14 @@ import DeleteUserPage from "../app/users/DeleteUserPage";
 export const users = new Hono();
 
 users.get("/", authMiddleware("MANAGE_USERS"), async (c) => {
-    const users = await db.user.findMany({ include: { groups: true } });
+    const users = await db.user.findMany({ include: { groups: true }, orderBy: { name: "asc" } });
 
     return renderPage(c, <UsersPage users={users} />);
 });
 
 users.get("/:id", authMiddleware("MANAGE_USERS"), async (c) => {
     const user = await db.user.findFirstOrThrow({ where: { id: c.req.param("id") }, include: { groups: true } });
-    const groups = await db.group.findMany();
+    const groups = await db.group.findMany({ orderBy: { name: "asc" } });
 
     return renderPage(c, <EditUserPage user={user} groups={groups} />);
 });
