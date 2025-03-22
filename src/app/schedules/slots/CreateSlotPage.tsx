@@ -1,4 +1,5 @@
 import type { Schedule, ScheduleBlock } from "@prisma/client";
+import url from "../../../utils/url";
 
 export default function CreateSlotPage({ schedule, blocks }: { schedule: Schedule; blocks: ScheduleBlock[] }) {
     return (
@@ -8,10 +9,10 @@ export default function CreateSlotPage({ schedule, blocks }: { schedule: Schedul
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/schedules">Schedules</a>
+                        <a href={url("/schedules")}>Schedules</a>
                     </li>
                     <li>
-                        <a href={`/schedules/${schedule.id}`}>{schedule.name}</a>
+                        <a href={url(`/schedules/${schedule.id}`)}>{schedule.name}</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

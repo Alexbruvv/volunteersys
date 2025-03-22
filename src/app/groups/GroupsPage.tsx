@@ -1,11 +1,12 @@
 import type { Group } from "@prisma/client";
+import url from "../../utils/url";
 
 export default function GroupsPage({ groups }: { groups: Group[] }) {
     return (
         <div className="container">
             <h3 className="title is-3">
                 Groups
-                <a href="/groups/new" className="button is-primary is-pulled-right">
+                <a href={url("/groups/new")} className="button is-primary is-pulled-right">
                     Create group
                 </a>
             </h3>
@@ -32,9 +33,9 @@ export default function GroupsPage({ groups }: { groups: Group[] }) {
                         <tr>
                             <td>{group.name}</td>
                             <td>
-                                <a href={`/groups/${group.id}`}>View/edit</a>
+                                <a href={url(`/groups/${group.id}`)}>View/edit</a>
                                 {" | "}
-                                <a href={`/groups/${group.id}/delete`} className="has-text-danger">
+                                <a href={url(`/groups/${group.id}/delete`)} className="has-text-danger">
                                     Delete
                                 </a>
                             </td>

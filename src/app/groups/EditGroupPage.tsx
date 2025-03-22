@@ -1,5 +1,6 @@
 import { Permission, type Group } from "@prisma/client";
 import { Fragment } from "hono/jsx/jsx-runtime";
+import url from "../../utils/url";
 
 export default function EditGroupPage({ group }: { group: Group }) {
     return (
@@ -9,7 +10,7 @@ export default function EditGroupPage({ group }: { group: Group }) {
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/groups">Groups</a>
+                        <a href={url("/groups")}>Groups</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

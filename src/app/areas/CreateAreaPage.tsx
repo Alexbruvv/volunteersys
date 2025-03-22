@@ -1,5 +1,6 @@
 import type { Schedule, User } from "@prisma/client";
 import { Fragment } from "hono/jsx/jsx-runtime";
+import url from "../../utils/url";
 
 export default function CreateAreaPage({ users, schedules }: { users: User[]; schedules: Schedule[] }) {
     return (
@@ -9,7 +10,7 @@ export default function CreateAreaPage({ users, schedules }: { users: User[]; sc
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/areas">Areas</a>
+                        <a href={url("/areas")}>Areas</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

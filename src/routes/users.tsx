@@ -5,6 +5,7 @@ import renderPage from "../utils/renderPage";
 import UsersPage from "../app/users/UsersPage";
 import EditUserPage from "../app/users/EditUserPage";
 import DeleteUserPage from "../app/users/DeleteUserPage";
+import url from "../utils/url";
 
 export const users = new Hono();
 
@@ -35,7 +36,7 @@ users.post("/:id", authMiddleware("MANAGE_USERS"), async (c) => {
         },
     });
 
-    return c.redirect("/users");
+    return c.redirect(url("/users"));
 });
 
 users.get("/:id/delete", authMiddleware("MANAGE_USERS"), async (c) => {
@@ -47,6 +48,6 @@ users.get("/:id/delete", authMiddleware("MANAGE_USERS"), async (c) => {
 users.post("/:id/delete", authMiddleware("MANAGE_USERS"), async (c) => {
     await db.user.delete({ where: { id: c.req.param("id") } });
 
-    return c.redirect("/users");
+    return c.redirect(url("/users"));
 });
 

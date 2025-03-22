@@ -1,4 +1,5 @@
 import type { ScheduleBlock } from "@prisma/client";
+import url from "../../utils/url";
 
 export default function DeleteScheduleBlockPage({ scheduleBlock }: { scheduleBlock: ScheduleBlock }) {
     return (
@@ -8,7 +9,7 @@ export default function DeleteScheduleBlockPage({ scheduleBlock }: { scheduleBlo
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/schedule-blocks">Schedule blocks</a>
+                        <a href={url("/schedule-blocks")}>Schedule blocks</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

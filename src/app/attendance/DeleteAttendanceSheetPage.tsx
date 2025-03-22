@@ -1,4 +1,5 @@
 import type { AttendanceSheet } from "@prisma/client";
+import url from "../../utils/url";
 
 export default function DeleteAttendanceSheetPage({ attendanceSheet }: { attendanceSheet: AttendanceSheet }) {
     return (
@@ -8,7 +9,7 @@ export default function DeleteAttendanceSheetPage({ attendanceSheet }: { attenda
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/attendance">Attendance sheets</a>
+                        <a href={url("/attendance")}>Attendance sheets</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

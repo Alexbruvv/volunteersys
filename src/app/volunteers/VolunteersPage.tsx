@@ -1,11 +1,12 @@
 import type { Volunteer } from "@prisma/client";
+import url from "../../utils/url";
 
 export default function VolunteersPage({ volunteers }: { volunteers: Volunteer[] }) {
     return (
         <div className="container">
             <h3 className="title is-3">
                 Volunteers
-                <a href="/volunteers/new" className="button is-primary is-pulled-right">
+                <a href={url("/volunteers/new")} className="button is-primary is-pulled-right">
                     Add volunteer
                 </a>
             </h3>
@@ -32,9 +33,9 @@ export default function VolunteersPage({ volunteers }: { volunteers: Volunteer[]
                         <tr>
                             <td>{volunteer.name}</td>
                             <td>
-                                <a href={`/volunteers/${volunteer.id}`}>View/edit</a>
+                                <a href={url(`/volunteers/${volunteer.id}`)}>View/edit</a>
                                 {" | "}
-                                <a href={`/volunteers/${volunteer.id}/delete`} className="has-text-danger">
+                                <a href={url(`/volunteers/${volunteer.id}/delete`)} className="has-text-danger">
                                     Delete
                                 </a>
                             </td>

@@ -2,6 +2,7 @@ import { useContext } from "hono/jsx";
 import { UserContext } from "../context";
 import type { Permission } from "@prisma/client";
 import { hasPermission } from "../../utils/permissions";
+import url from "../../utils/url";
 
 const ATTENDANCE_PERMISSIONS: Permission[] = ["CONFIGURE_ATTENDANCE_SHEETS", "RECORD_ATTENDANCE"];
 const VOLUNTEERS_PERMISSIONS: Permission[] = ["MANAGE_VOLUNTEERS"];
@@ -18,7 +19,7 @@ export default function Navbar() {
     return (
         <nav className="navbar is-warning mb-5" role="navigation" aria-label="main navigation">
             <div className="navbar-brand">
-                <a className="navbar-item" href="/">
+                <a className="navbar-item" href={url("/")}>
                     <b>Volunteer System</b>
                 </a>
 
@@ -38,12 +39,12 @@ export default function Navbar() {
 
             <div id="nav-main" className="navbar-menu">
                 <div className="navbar-start">
-                    <a href="/" className="navbar-item">
+                    <a href={url("/")} className="navbar-item">
                         Home
                     </a>
 
                     {ATTENDANCE_PERMISSIONS.some((permission) => hasPermission(user, permission)) && (
-                        <a href="/attendance" className="navbar-item">
+                        <a href={url("/attendance")} className="navbar-item">
                             Attendance
                         </a>
                     )}
@@ -54,12 +55,12 @@ export default function Navbar() {
 
                             <div className="navbar-dropdown">
                                 {hasPermission(user, "MANAGE_VOLUNTEERS") && (
-                                    <a href="/volunteers" className="navbar-item">
+                                    <a href={url("/volunteers")} className="navbar-item">
                                         Volunteers
                                     </a>
                                 )}
                                 {hasPermission(user, "ASSIGN_VOLUNTEERS") && (
-                                    <a href="/volunteers/assignments" className="navbar-item">
+                                    <a href={url("/volunteers/assignments")} className="navbar-item">
                                         Assignments
                                     </a>
                                 )}
@@ -73,17 +74,17 @@ export default function Navbar() {
 
                             <div className="navbar-dropdown">
                                 {hasPermission(user, "CONFIGURE_AREAS") && (
-                                    <a href="/areas" className="navbar-item">
+                                    <a href={url("/areas")} className="navbar-item">
                                         Areas
                                     </a>
                                 )}
                                 {hasPermission(user, "CONFIGURE_SCHEDULE_BLOCKS") && (
-                                    <a href="/schedule-blocks" className="navbar-item">
+                                    <a href={url("/schedule-blocks")} className="navbar-item">
                                         Schedule blocks
                                     </a>
                                 )}
                                 {hasPermission(user, "CONFIGURE_SCHEDULES") && (
-                                    <a href="/schedules" className="navbar-item">
+                                    <a href={url("/schedules")} className="navbar-item">
                                         Schedules
                                     </a>
                                 )}
@@ -97,13 +98,13 @@ export default function Navbar() {
 
                             <div className="navbar-dropdown">
                                 {hasPermission(user, "MANAGE_USERS") && (
-                                    <a href="/users" className="navbar-item">
+                                    <a href={url("/users")} className="navbar-item">
                                         Users
                                     </a>
                                 )}
 
                                 {hasPermission(user, "MANAGE_GROUPS") && (
-                                    <a href="/groups" className="navbar-item">
+                                    <a href={url("/groups")} className="navbar-item">
                                         Groups
                                     </a>
                                 )}
@@ -117,7 +118,7 @@ export default function Navbar() {
                         <a className="navbar-link">{user.name}</a>
 
                         <div className="navbar-dropdown">
-                            <a href="/auth/logout" className="navbar-item">
+                            <a href={url("/auth/logout")} className="navbar-item">
                                 Logout
                             </a>
                         </div>

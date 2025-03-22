@@ -1,4 +1,5 @@
 import type { Role } from "@prisma/client";
+import url from "../../../utils/url";
 
 export default function DeleteRolePage({ role }: { role: Role }) {
     return (
@@ -8,7 +9,7 @@ export default function DeleteRolePage({ role }: { role: Role }) {
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/roles">Roles</a>
+                        <a href={url("/roles")}>Roles</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

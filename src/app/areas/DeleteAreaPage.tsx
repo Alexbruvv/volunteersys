@@ -8,7 +8,7 @@ export default function DeleteAreaPage({ area }: { area: Area }) {
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/areas">Areas</a>
+                        <a href={url("/areas")}>Areas</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

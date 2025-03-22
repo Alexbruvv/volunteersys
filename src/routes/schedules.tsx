@@ -6,6 +6,7 @@ import SchedulesPage from "../app/schedules/SchedulesPage";
 import CreateSchedulePage from "../app/schedules/CreateSchedulePage";
 import EditSchedulePage from "../app/schedules/EditSchedulePage";
 import { slots } from "./slots";
+import url from "../utils/url";
 
 export const schedules = new Hono();
 schedules.route("/", slots);
@@ -29,7 +30,7 @@ schedules.post("/new", authMiddleware("CONFIGURE_SCHEDULES"), async (c) => {
         },
     });
 
-    return c.redirect("/schedules");
+    return c.redirect(url("/schedules"));
 });
 
 schedules.get("/:id", authMiddleware("CONFIGURE_SCHEDULES"), async (c) => {
@@ -39,7 +40,7 @@ schedules.get("/:id", authMiddleware("CONFIGURE_SCHEDULES"), async (c) => {
     });
 
     if (!schedule) {
-        return c.redirect("/schedules");
+        return c.redirect(url("/schedules"));
     }
 
     return renderPage(c, <EditSchedulePage schedule={schedule} />);
@@ -55,6 +56,6 @@ schedules.post("/:id", authMiddleware("CONFIGURE_SCHEDULES"), async (c) => {
         },
     });
 
-    return c.redirect("/schedules");
+    return c.redirect(url("/schedules"));
 });
 

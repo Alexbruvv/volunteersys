@@ -7,6 +7,7 @@ import AddVolunteerPage from "../app/volunteers/AddVolunteerPage";
 import EditVolunteerPage from "../app/volunteers/EditVolunteerPage";
 import DeleteVolunteerPage from "../app/volunteers/DeleteVolunteerPage";
 import AssignmentsPage from "../app/volunteers/AssignmentsPage";
+import url from "../utils/url";
 
 export const volunteers = new Hono();
 
@@ -26,7 +27,7 @@ volunteers.post("/new", authMiddleware("MANAGE_VOLUNTEERS"), async (c) => {
         },
     });
 
-    return c.redirect("/volunteers");
+    return c.redirect(url("/volunteers"));
 });
 
 volunteers.get("/", authMiddleware("MANAGE_VOLUNTEERS"), async (c) => {
@@ -118,7 +119,7 @@ volunteers.post("/:id", authMiddleware("MANAGE_VOLUNTEERS"), async (c) => {
         },
     });
 
-    return c.redirect("/volunteers");
+    return c.redirect(url("/volunteers"));
 });
 
 volunteers.get("/:id/delete", authMiddleware("MANAGE_VOLUNTEERS"), async (c) => {
@@ -138,6 +139,6 @@ volunteers.post("/:id/delete", authMiddleware("MANAGE_VOLUNTEERS"), async (c) =>
         },
     });
 
-    return c.redirect("/volunteers");
+    return c.redirect(url("/volunteers"));
 });
 

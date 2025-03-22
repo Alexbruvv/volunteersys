@@ -7,7 +7,7 @@ export default function ErrorPage({ error }: { error: string }) {
                 <div className="notification is-danger">{error}</div>
 
                 <p>
-                    <a href="/">Return to application</a>
+                    <a href={url("/")}>Return to application</a>
                 </p>
             </div>
         </Root>

@@ -1,3 +1,5 @@
+import url from "../../utils/url";
+
 export default function CreateSchedulePage() {
     return (
         <div className="container">
@@ -6,7 +8,7 @@ export default function CreateSchedulePage() {
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/schedule-block">Schedules</a>
+                        <a href={url("/schedule-block")}>Schedules</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

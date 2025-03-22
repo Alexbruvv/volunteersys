@@ -6,6 +6,7 @@ import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
 import { sign, verify } from "hono/jwt";
 import type { Group, Permission, User } from "@prisma/client";
+import url from "../utils/url";
 
 export const AUTH_TOKEN_COOKIE_NAME = "auth-token";
 export const AUTH_TOKEN_LIFETIME = 60 * 60 * 24 * 7; // 7 days
@@ -20,20 +21,20 @@ export const authMiddleware = (...requiredPermissions: Permission[]) =>
 
         if (!signedCookie) {
             console.log("no signed cookie");
-            return c.redirect("/auth/login");
+            return c.redirect(url("/auth/login"));
         }
 
         const parsedToken = await verify(signedCookie, process.env.JWT_SECRET!);
         const userId = parsedToken.userId as string | undefined;
 
         if (!userId) {
-            return c.redirect("/auth/login");
+            return c.redirect(url("/auth/login"));
         }
 
         const user = await db.user.findFirst({ where: { id: userId }, include: { groups: true } });
 
         if (!user) {
-            return c.redirect("/auth/login");
+            return c.redirect(url("/auth/login"));
         }
 
         if (
@@ -42,7 +43,7 @@ export const authMiddleware = (...requiredPermissions: Permission[]) =>
                 requiredPermissions.some((permission) => group.permissions.includes(permission))
             )
         ) {
-            return c.redirect("/");
+            return c.redirect(url("/"));
         }
 
         c.set("user", user);
@@ -54,7 +55,7 @@ export const auth = new Hono();
 auth.get("/login", (c) => c.html(<ChooseProviderPage />));
 auth.get("/logout", (c) => {
     deleteCookie(c, AUTH_TOKEN_COOKIE_NAME);
-    return c.redirect("/");
+    return c.redirect(url("/"));
 });
 
 auth.get(
@@ -103,7 +104,7 @@ auth.get(
                 expires: new Date(Date.now() + AUTH_TOKEN_LIFETIME * 1000),
             });
 
-            return c.redirect("/");
+            return c.redirect(url("/"));
         }
 
         await db.$transaction(async (tx) => {
@@ -126,7 +127,7 @@ auth.get(
             return user;
         });
 
-        return c.redirect("/");
+        return c.redirect(url("/"));
     }
 );
 

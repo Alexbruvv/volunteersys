@@ -1,4 +1,5 @@
 import type { Group } from "@prisma/client";
+import url from "../../utils/url";
 
 export default function DeleteGroupPage({ group }: { group: Group }) {
     return (
@@ -8,7 +9,7 @@ export default function DeleteGroupPage({ group }: { group: Group }) {
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/groups">Groups</a>
+                        <a href={url("/groups")}>Groups</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

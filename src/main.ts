@@ -11,13 +11,15 @@ import { errorPage } from "./app/_layout/ErrorPage";
 import { scheduleBlocks } from "./routes/scheduleBlocks";
 import { Settings } from "luxon";
 import { schedules } from "./routes/schedules";
+import { trimTrailingSlash } from "hono/trailing-slash";
 
 process.env.TZ = "Europe/London";
 
 Settings.defaultZone = "Europe/London";
 Settings.defaultLocale = "en-GB";
 
-const app = new Hono();
+const app = new Hono().basePath(Bun.env.BASE_PATH ?? "/");
+app.use(trimTrailingSlash());
 app.use("/static/*", serveStatic({ root: "./" }));
 app.route("/", root);
 app.route("/auth", auth);

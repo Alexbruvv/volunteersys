@@ -1,5 +1,6 @@
 import type { ScheduleBlock } from "@prisma/client";
 import { DateTime } from "luxon";
+import url from "../../utils/url";
 
 export default function EditScheduleBlockPage({ scheduleBlock }: { scheduleBlock: ScheduleBlock }) {
     return (
@@ -9,7 +10,7 @@ export default function EditScheduleBlockPage({ scheduleBlock }: { scheduleBlock
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/schedule-blocks">Schedule blocks</a>
+                        <a href={url("/schedule-blocks")}>Schedule blocks</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

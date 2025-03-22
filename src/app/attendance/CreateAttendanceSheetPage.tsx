@@ -6,7 +6,7 @@ export default function CreateAttendanceSheetPage() {
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/attendance">Attendance sheets</a>
+                        <a href={url("/attendance")}>Attendance sheets</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

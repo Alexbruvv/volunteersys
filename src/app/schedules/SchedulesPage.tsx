@@ -1,11 +1,12 @@
 import type { Schedule } from "@prisma/client";
+import url from "../../utils/url";
 
 export default function SchedulesPage({ schedules }: { schedules: Schedule[] }) {
     return (
         <div className="container">
             <h3 className="title is-3">
                 Schedules
-                <a href="/schedules/new" className="button is-primary is-pulled-right">
+                <a href={url("/schedules/new")} className="button is-primary is-pulled-right">
                     Create schedule
                 </a>
             </h3>
@@ -32,9 +33,9 @@ export default function SchedulesPage({ schedules }: { schedules: Schedule[] }) 
                         <tr>
                             <td>{schedule.name}</td>
                             <td>
-                                <a href={`/schedules/${schedule.id}`}>View/edit</a>
+                                <a href={url(`/schedules/${schedule.id}`)}>View/edit</a>
                                 {" | "}
-                                <a href={`/schedules/${schedule.id}/delete`} className="has-text-danger">
+                                <a href={url(`/schedules/${schedule.id}/delete`)} className="has-text-danger">
                                     Delete
                                 </a>
                             </td>

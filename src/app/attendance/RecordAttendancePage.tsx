@@ -1,5 +1,6 @@
 import type { AttendanceSheet, Volunteer } from "@prisma/client";
 import { memo } from "hono/jsx";
+import url from "../../utils/url";
 
 const PresentTag = memo(() => <span className="tag is-success">Present</span>);
 const AbsentTag = memo(() => <span className="tag is-danger">Absent</span>);
@@ -18,10 +19,10 @@ export default function RecordAttendancePage({
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/attendance">Attendance sheets</a>
+                        <a href={url("/attendance")}>Attendance sheets</a>
                     </li>
                     <li>
-                        <a href={`/attendance/${sheet.id}`}>{sheet.name}</a>
+                        <a href={url(`/attendance/${sheet.id}`)}>{sheet.name}</a>
                     </li>
                     <li className="is-active">
                         <a aria-current="page">Record attendance</a>
@@ -46,7 +47,7 @@ export default function RecordAttendancePage({
                             </td>
                             <td>
                                 <a
-                                    href={`/attendance/${sheet.id}/toggle?volunteerId=${volunteer.id}`}
+                                    href={url(`/attendance/${sheet.id}/toggle?volunteerId=${volunteer.id}`)}
                                     className="button is-primary is-small"
                                 >
                                     Toggle

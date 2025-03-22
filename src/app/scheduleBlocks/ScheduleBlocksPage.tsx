@@ -1,12 +1,13 @@
 import type { ScheduleBlock } from "@prisma/client";
 import { DateTime } from "luxon";
+import url from "../../utils/url";
 
 export default function ScheduleBlocksPage({ scheduleBlocks }: { scheduleBlocks: ScheduleBlock[] }) {
     return (
         <div className="container">
             <h3 className="title is-3">
                 Schedule blocks
-                <a href="/schedule-blocks/new" className="button is-primary is-pulled-right">
+                <a href={url("/schedule-blocks/new")} className="button is-primary is-pulled-right">
                     Create schedule block
                 </a>
             </h3>
@@ -41,9 +42,12 @@ export default function ScheduleBlocksPage({ scheduleBlocks }: { scheduleBlocks:
                                 {DateTime.fromJSDate(scheduleBlock.endTime).toLocaleString(DateTime.DATETIME_SHORT)}
                             </td>
                             <td>
-                                <a href={`/schedule-blocks/${scheduleBlock.id}`}>View/edit</a>
+                                <a href={url(`/schedule-blocks/${scheduleBlock.id}`)}>View/edit</a>
                                 {" | "}
-                                <a href={`/schedule-blocks/${scheduleBlock.id}/delete`} className="has-text-danger">
+                                <a
+                                    href={url(`/schedule-blocks/${scheduleBlock.id}/delete`)}
+                                    className="has-text-danger"
+                                >
                                     Delete
                                 </a>
                             </td>

@@ -5,6 +5,7 @@ import CreateSlotPage from "../app/schedules/slots/CreateSlotPage";
 import { db } from "../db/db";
 import EditSlotPage from "../app/schedules/slots/EditSlotPage";
 import DeleteSlotPage from "../app/schedules/slots/DeleteSlotPage";
+import url from "../utils/url";
 
 export const slots = new Hono();
 
@@ -16,7 +17,7 @@ slots.get("/:id/slots/new", authMiddleware("CONFIGURE_SCHEDULES"), async (c) => 
     const blocks = await db.scheduleBlock.findMany({ orderBy: { startTime: "asc" } });
 
     if (!schedule) {
-        return c.redirect("/schedules");
+        return c.redirect(url("/schedules"));
     }
 
     return renderPage(c, <CreateSlotPage schedule={schedule} blocks={blocks} />);
@@ -35,7 +36,7 @@ slots.post("/:id/slots/new", authMiddleware("CONFIGURE_SCHEDULES"), async (c) =>
         },
     });
 
-    return c.redirect(`/schedules/${c.req.param("id")}`);
+    return c.redirect(url("/schedules/:id", { id: c.req.param("id") }));
 });
 
 slots.get("/:id/slots/:slotId", authMiddleware("CONFIGURE_SCHEDULES"), async (c) => {
@@ -45,7 +46,7 @@ slots.get("/:id/slots/:slotId", authMiddleware("CONFIGURE_SCHEDULES"), async (c)
     });
 
     if (!slot) {
-        return c.redirect(`/schedules/${c.req.param("id")}`);
+        return c.redirect(url("/schedules/:id", { id: c.req.param("id") }));
     }
 
     const blocks = await db.scheduleBlock.findMany();
@@ -68,7 +69,7 @@ slots.post("/:id/slots/:slotId", authMiddleware("CONFIGURE_SCHEDULES"), async (c
         },
     });
 
-    return c.redirect(`/schedules/${c.req.param("id")}`);
+    return c.redirect(url("/schedules/:id", { id: c.req.param("id") }));
 });
 
 slots.get("/:id/slots/:slotId/delete", authMiddleware("CONFIGURE_SCHEDULES"), async (c) => {
@@ -78,7 +79,7 @@ slots.get("/:id/slots/:slotId/delete", authMiddleware("CONFIGURE_SCHEDULES"), as
     });
 
     if (!slot) {
-        return c.redirect(`/schedules/${c.req.param("id")}`);
+        return c.redirect(url("/schedules/:id", { id: c.req.param("id") }));
     }
 
     return renderPage(c, <DeleteSlotPage slot={slot} />);
@@ -91,5 +92,6 @@ slots.post("/:id/slots/:slotId/delete", authMiddleware("CONFIGURE_SCHEDULES"), a
         },
     });
 
-    return c.redirect(`/schedules/${c.req.param("id")}`);
+    return c.redirect(url("/schedules/:id", { id: c.req.param("id") }));
 });
+

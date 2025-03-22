@@ -1,11 +1,12 @@
 import type { Area, Schedule } from "@prisma/client";
+import url from "../../utils/url";
 
 export default function AreasPage({ areas }: { areas: Array<Area & { schedule: Schedule }> }) {
     return (
         <div className="container">
             <h3 className="title is-3">
                 Areas
-                <a href="/areas/new" className="button is-primary is-pulled-right">
+                <a href={url("/areas/new")} className="button is-primary is-pulled-right">
                     Create area
                 </a>
             </h3>
@@ -34,9 +35,9 @@ export default function AreasPage({ areas }: { areas: Array<Area & { schedule: S
                             <td>{area.name}</td>
                             <td>{area.schedule.name}</td>
                             <td>
-                                <a href={`/areas/${area.id}`}>View/edit</a>
+                                <a href={url(`/areas/${area.id}`)}>View/edit</a>
                                 {" | "}
-                                <a href={`/areas/${area.id}/delete`} className="has-text-danger">
+                                <a href={url(`/areas/${area.id}/delete`)} className="has-text-danger">
                                     Delete
                                 </a>
                             </td>

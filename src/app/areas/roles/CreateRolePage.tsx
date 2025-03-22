@@ -1,4 +1,5 @@
 import type { Area } from "@prisma/client";
+import url from "../../../utils/url";
 
 export default function CreateRolePage({ area }: { area: Area }) {
     return (
@@ -8,10 +9,10 @@ export default function CreateRolePage({ area }: { area: Area }) {
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/areas">Areas</a>
+                        <a href={url("/areas")}>Areas</a>
                     </li>
                     <li>
-                        <a href={`/areas/${area.id}`}>{area.name}</a>
+                        <a href={url("/areas/:id", { id: area.id })}>{area.name}</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

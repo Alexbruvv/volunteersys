@@ -4,6 +4,7 @@ import { UserContext } from "../context";
 import { hasPermission } from "../../utils/permissions";
 import { DateTime } from "luxon";
 import { Fragment } from "hono/jsx";
+import url from "../../utils/url";
 
 export default function AttendanceSheetsPage({ sheets }: { sheets: AttendanceSheet[] }) {
     const user = useContext(UserContext);
@@ -17,7 +18,7 @@ export default function AttendanceSheetsPage({ sheets }: { sheets: AttendanceShe
             <h3 className="title is-3">
                 Attendance sheets
                 {hasPermission(user, "CONFIGURE_ATTENDANCE_SHEETS") && (
-                    <a href="/attendance/new" className="button is-primary is-pulled-right">
+                    <a href={url("/attendance/new")} className="button is-primary is-pulled-right">
                         Create attendance sheet
                     </a>
                 )}
@@ -48,16 +49,16 @@ export default function AttendanceSheetsPage({ sheets }: { sheets: AttendanceShe
                             <td>{DateTime.fromJSDate(sheet.startDate).toLocaleString(DateTime.DATETIME_FULL)}</td>
                             <td>
                                 {new Date() >= sheet.startDate && (
-                                    <a href={`/attendance/${sheet.id}/record`} className="has-text-primary">
+                                    <a href={url(`/attendance/${sheet.id}/record`)} className="has-text-primary">
                                         Record
                                     </a>
                                 )}
                                 {hasPermission(user, "CONFIGURE_ATTENDANCE_SHEETS") && (
                                     <Fragment>
                                         {new Date() >= sheet.startDate && " | "}
-                                        <a href={`/attendance/${sheet.id}`}>View/edit</a>
+                                        <a href={url(`/attendance/${sheet.id}`)}>View/edit</a>
                                         {" | "}
-                                        <a href={`/attendance/${sheet.id}/delete`} className="has-text-danger">
+                                        <a href={url(`/attendance/${sheet.id}/delete`)} className="has-text-danger">
                                             Delete
                                         </a>
                                     </Fragment>

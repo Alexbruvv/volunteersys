@@ -7,6 +7,7 @@ import CreateAreaPage from "../app/areas/CreateAreaPage";
 import EditAreaPage from "../app/areas/EditAreaPage";
 import DeleteAreaPage from "../app/areas/DeleteAreaPage";
 import { roles } from "./roles";
+import url from "../utils/url";
 
 export const areas = new Hono();
 areas.route("/", roles);
@@ -32,7 +33,7 @@ areas.post("/new", authMiddleware("CONFIGURE_AREAS"), async (c) => {
         },
     });
 
-    return c.redirect("/areas");
+    return c.redirect(url("/areas"));
 });
 
 areas.get("/", authMiddleware("CONFIGURE_AREAS"), async (c) => {
@@ -74,7 +75,7 @@ areas.post("/:id", authMiddleware("CONFIGURE_AREAS"), async (c) => {
         },
     });
 
-    return c.redirect("/areas");
+    return c.redirect(url("/areas"));
 });
 
 areas.get("/:id/delete", authMiddleware("CONFIGURE_AREAS"), async (c) => {
@@ -94,6 +95,6 @@ areas.post("/:id/delete", authMiddleware("CONFIGURE_AREAS"), async (c) => {
         },
     });
 
-    return c.redirect("/areas");
+    return c.redirect(url("/areas"));
 });
 

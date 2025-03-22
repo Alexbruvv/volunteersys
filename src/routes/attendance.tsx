@@ -7,6 +7,7 @@ import CreateAttendanceSheetPage from "../app/attendance/CreateAttendanceSheetPa
 import RecordAttendancePage from "../app/attendance/RecordAttendancePage";
 import EditAttendanceSheetPage from "../app/attendance/EditAttendanceSheetPage";
 import DeleteAttendanceSheetPage from "../app/attendance/DeleteAttendanceSheetPage";
+import url from "../utils/url";
 
 export const attendance = new Hono();
 
@@ -24,7 +25,7 @@ attendance.post("/new", authMiddleware("CONFIGURE_ATTENDANCE_SHEETS"), async (c)
         },
     });
 
-    return c.redirect("/attendance");
+    return c.redirect(url("/attendance"));
 });
 
 attendance.get("/", authMiddleware("RECORD_ATTENDANCE", "CONFIGURE_ATTENDANCE_SHEETS"), async (c) => {
@@ -52,7 +53,7 @@ attendance.post("/:id", authMiddleware("CONFIGURE_ATTENDANCE_SHEETS"), async (c)
         },
     });
 
-    return c.redirect("/attendance");
+    return c.redirect(url("/attendance"));
 });
 
 attendance.get("/:id/record", authMiddleware("RECORD_ATTENDANCE"), async (c) => {
@@ -95,7 +96,7 @@ attendance.get("/:id/toggle", authMiddleware("RECORD_ATTENDANCE"), async (c) => 
         });
     }
 
-    return c.redirect(`/attendance/${c.req.param("id")}/record`);
+    return c.redirect(url("/attendance/:id/record", { id: c.req.param("id") }));
 });
 
 attendance.get("/:id/delete", authMiddleware("CONFIGURE_ATTENDANCE_SHEETS"), async (c) => {
@@ -111,6 +112,6 @@ attendance.post("/:id/delete", authMiddleware("CONFIGURE_ATTENDANCE_SHEETS"), as
         where: { id: c.req.param("id") },
     });
 
-    return c.redirect("/attendance");
+    return c.redirect(url("/attendance"));
 });
 

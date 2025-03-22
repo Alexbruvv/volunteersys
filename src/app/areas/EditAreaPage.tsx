@@ -1,5 +1,6 @@
 import type { Area, Role, Schedule, User } from "@prisma/client";
 import { Fragment } from "hono/jsx/jsx-runtime";
+import url from "../../utils/url";
 
 export default function EditAreaPage({
     area,
@@ -17,7 +18,7 @@ export default function EditAreaPage({
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/areas">Areas</a>
+                        <a href={url("/areas")}>Areas</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">
@@ -103,7 +104,7 @@ export default function EditAreaPage({
             <div className="box">
                 <h5 className="title is-5">
                     Roles
-                    <a href={`/areas/${area.id}/roles/new`} className="button is-primary is-pulled-right">
+                    <a href={url(`/areas/${area.id}/roles/new`)} className="button is-primary is-pulled-right">
                         Create role
                     </a>
                 </h5>
@@ -124,9 +125,12 @@ export default function EditAreaPage({
                                     {role.description} {role.guidanceUri && <a href={role.guidanceUri}>(Guidance)</a>}
                                 </td>
                                 <td>
-                                    <a href={`/areas/${area.id}/roles/${role.id}`}>Edit</a>
+                                    <a href={url(`/areas/${area.id}/roles/${role.id}`)}>Edit</a>
                                     {" | "}
-                                    <a href={`/areas/${area.id}/roles/${role.id}/delete`} className="has-text-danger">
+                                    <a
+                                        href={url(`/areas/${area.id}/roles/${role.id}/delete`)}
+                                        className="has-text-danger"
+                                    >
                                         Delete
                                     </a>
                                 </td>

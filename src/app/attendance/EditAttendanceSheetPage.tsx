@@ -1,5 +1,6 @@
 import type { AttendanceSheet } from "@prisma/client";
 import { DateTime } from "luxon";
+import url from "../../utils/url";
 
 export default function EditAttendanceSheetPage({ attendanceSheet }: { attendanceSheet: AttendanceSheet }) {
     return (
@@ -9,7 +10,7 @@ export default function EditAttendanceSheetPage({ attendanceSheet }: { attendanc
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/attendance">Attendance sheets</a>
+                        <a href={url("/attendance")}>Attendance sheets</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

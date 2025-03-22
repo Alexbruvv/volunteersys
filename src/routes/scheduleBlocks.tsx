@@ -6,6 +6,7 @@ import ScheduleBlocksPage from "../app/scheduleBlocks/ScheduleBlocksPage";
 import CreateScheduleBlockPage from "../app/scheduleBlocks/CreateScheduleBlockPage";
 import EditScheduleBlockPage from "../app/scheduleBlocks/EditScheduleBlockPage";
 import DeleteScheduleBlockPage from "../app/scheduleBlocks/DeleteScheduleBlockPage";
+import url from "../utils/url";
 
 export const scheduleBlocks = new Hono();
 
@@ -24,7 +25,7 @@ scheduleBlocks.post("/new", authMiddleware("CONFIGURE_SCHEDULE_BLOCKS"), async (
         },
     });
 
-    return c.redirect("/schedule-blocks");
+    return c.redirect(url("/schedule-blocks"));
 });
 
 scheduleBlocks.get("/", authMiddleware("CONFIGURE_SCHEDULE_BLOCKS"), async (c) => {
@@ -61,7 +62,7 @@ scheduleBlocks.post("/:id", authMiddleware("CONFIGURE_SCHEDULE_BLOCKS"), async (
         },
     });
 
-    return c.redirect("/schedule-blocks");
+    return c.redirect(url("/schedule-blocks"));
 });
 
 scheduleBlocks.get("/:id/delete", authMiddleware("CONFIGURE_SCHEDULE_BLOCKS"), async (c) => {
@@ -81,5 +82,6 @@ scheduleBlocks.post("/:id/delete", authMiddleware("CONFIGURE_SCHEDULE_BLOCKS"), 
         },
     });
 
-    return c.redirect("/schedule-blocks");
+    return c.redirect(url("/schedule-blocks"));
 });
+

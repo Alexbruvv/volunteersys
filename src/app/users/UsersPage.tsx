@@ -1,4 +1,5 @@
 import type { Group, User } from "@prisma/client";
+import url from "../../utils/url";
 
 export default function UsersPage({ users }: { users: (User & { groups: Group[] })[] }) {
     return (
@@ -29,9 +30,9 @@ export default function UsersPage({ users }: { users: (User & { groups: Group[] 
                             <td>{user.name}</td>
                             <td>{user.groups.map((group) => group.name).join(", ")}</td>
                             <td>
-                                <a href={`/users/${user.id}`}>View/edit</a>
+                                <a href={url(`/users/${user.id}`)}>View/edit</a>
                                 {" | "}
-                                <a href={`/users/${user.id}/delete`} className="has-text-danger">
+                                <a href={url(`/users/${user.id}/delete`)} className="has-text-danger">
                                     Delete
                                 </a>
                             </td>

@@ -5,6 +5,7 @@ import renderPage from "../utils/renderPage";
 import CreateRolePage from "../app/areas/roles/CreateRolePage";
 import EditRolePage from "../app/areas/roles/EditRolePage";
 import DeleteRolePage from "../app/areas/roles/DeleteRolePage";
+import url from "../utils/url";
 
 export const roles = new Hono();
 
@@ -32,7 +33,7 @@ roles.post("/:id/roles/new", authMiddleware("CONFIGURE_AREAS"), async (c) => {
         },
     });
 
-    return c.redirect(`/areas/${c.req.param("id")}`);
+    return c.redirect(url("/areas/:id", { id: c.req.param("id") }));
 });
 
 roles.get("/:id/roles/:roleId", authMiddleware("CONFIGURE_AREAS"), async (c) => {
@@ -60,7 +61,7 @@ roles.post("/:id/roles/:roleId", authMiddleware("CONFIGURE_AREAS"), async (c) =>
         },
     });
 
-    return c.redirect(`/areas/${c.req.param("id")}`);
+    return c.redirect(url("/areas/:id", { id: c.req.param("id") }));
 });
 
 roles.get("/:id/roles/:roleId/delete", authMiddleware("CONFIGURE_AREAS"), async (c) => {
@@ -80,6 +81,6 @@ roles.post("/:id/roles/:roleId/delete", authMiddleware("CONFIGURE_AREAS"), async
         },
     });
 
-    return c.redirect(`/areas/${c.req.param("id")}`);
+    return c.redirect(url("/areas/:id", { id: c.req.param("id") }));
 });
 

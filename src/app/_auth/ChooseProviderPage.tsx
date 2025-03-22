@@ -1,9 +1,11 @@
+import url from "../../utils/url";
+
 export default function ChooseProviderPage() {
     return (
         <html>
             <head>
                 <title>Authentication</title>
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"></link>
+                <link rel="stylesheet" href={"https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"}></link>
             </head>
             <body>
                 <div className="container mt-6">
@@ -14,7 +16,7 @@ export default function ChooseProviderPage() {
                                     <h1 className="card-header-title">Choose authentication provider</h1>
                                 </div>
                                 <div className="card-content">
-                                    <a href="/auth/google">Sign in with Google</a>
+                                    <a href={url("/auth/google")}>Sign in with Google</a>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,5 @@
 import type { User } from "@prisma/client";
+import url from "../../utils/url";
 
 export default function DeleteUserPage({ user }: { user: User }) {
     return (
@@ -8,7 +9,7 @@ export default function DeleteUserPage({ user }: { user: User }) {
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/users">Users</a>
+                        <a href={url("/users")}>Users</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

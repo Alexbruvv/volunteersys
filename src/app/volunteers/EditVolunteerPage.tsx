@@ -1,4 +1,5 @@
 import { type Volunteer } from "@prisma/client";
+import url from "../../utils/url";
 
 export default function EditVolunteerPage({ volunteer }: { volunteer: Volunteer }) {
     return (
@@ -8,7 +9,7 @@ export default function EditVolunteerPage({ volunteer }: { volunteer: Volunteer 
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/volunteers">Volunteers</a>
+                        <a href={url("/volunteers")}>Volunteers</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">

@@ -1,5 +1,6 @@
 import type { Schedule, ScheduleBlock, ScheduleSlot } from "@prisma/client";
 import { DateTime } from "luxon";
+import url from "../../utils/url";
 
 export default function EditSchedulePage({
     schedule,
@@ -13,7 +14,7 @@ export default function EditSchedulePage({
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/schedules">Schedules</a>
+                        <a href={url("/schedules")}>Schedules</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">
@@ -52,7 +53,7 @@ export default function EditSchedulePage({
             <div className="box">
                 <h5 className="title is-5">
                     Slots
-                    <a href={`/schedules/${schedule.id}/slots/new`} className="button is-primary is-pulled-right">
+                    <a href={url(`/schedules/${schedule.id}/slots/new`)} className="button is-primary is-pulled-right">
                         Create slot
                     </a>
                 </h5>
@@ -79,10 +80,10 @@ export default function EditSchedulePage({
                                     <td>{DateTime.fromJSDate(slot.endTime).toLocaleString(DateTime.DATETIME_SHORT)}</td>
                                     <td>{slot.scheduleBlock.name}</td>
                                     <td>
-                                        <a href={`/schedules/${schedule.id}/slots/${slot.id}`}>View/edit</a>
+                                        <a href={url(`/schedules/${schedule.id}/slots/${slot.id}`)}>View/edit</a>
                                         {" | "}
                                         <a
-                                            href={`/schedules/${schedule.id}/slots/${slot.id}/delete`}
+                                            href={url(`/schedules/${schedule.id}/slots/${slot.id}/delete`)}
                                             className="has-text-danger"
                                         >
                                             Delete

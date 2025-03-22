@@ -1,4 +1,5 @@
 import type { Schedule, ScheduleSlot } from "@prisma/client";
+import url from "../../../utils/url";
 
 export default function DeleteSlotPage({ slot }: { slot: ScheduleSlot & { schedule: Schedule } }) {
     return (
@@ -8,10 +9,10 @@ export default function DeleteSlotPage({ slot }: { slot: ScheduleSlot & { schedu
             <nav className="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li>
-                        <a href="/schedules">Schedules</a>
+                        <a href={url("/schedules")}>Schedules</a>
                     </li>
                     <li>
-                        <a href={`/schedules/${slot.schedule.id}`}>{slot.schedule.name}</a>
+                        <a href={url(`/schedules/${slot.schedule.id}`)}>{slot.schedule.name}</a>
                     </li>
                     <li className="is-active">
                         <a href="#" aria-current="page">
