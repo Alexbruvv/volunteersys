@@ -64,6 +64,7 @@ auth.get(
         client_id: process.env.GOOGLE_CLIENT_ID!,
         client_secret: process.env.GOOGLE_CLIENT_SECRET!,
         scope: ["openid", "email", "profile"],
+        redirect_uri: process.env.SITE_ORIGIN ? process.env.SITE_ORIGIN + url("/auth/google") : undefined,
     }),
     async (c) => {
         const providerUser = c.get("user-google");
