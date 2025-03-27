@@ -60,12 +60,24 @@ auth.get("/logout", (c) => {
 
 auth.get(
     "/google",
-    googleAuth({
-        client_id: process.env.GOOGLE_CLIENT_ID!,
-        client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-        scope: ["openid", "email", "profile"],
-        redirect_uri: process.env.SITE_ORIGIN ? process.env.SITE_ORIGIN + url("/auth/google") : undefined,
-    }),
+    async (c, next) => {
+        const forwardedProto = c.req.header("x-forwarded-proto");
+        const forwardedHost = c.req.header("x-forwarded-host") ?? c.req.header("host");
+
+        const effectiveProtocol = forwardedProto ?? "http";
+        const baseUrl = forwardedHost
+            ? `${effectiveProtocol}://${forwardedHost}`
+            : `${effectiveProtocol}://${c.req.url}`;
+
+        const googleAuthMiddleware = googleAuth({
+            client_id: process.env.GOOGLE_CLIENT_ID!,
+            client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+            scope: ["openid", "email", "profile"],
+            redirect_uri: `${baseUrl}${url("/auth/google")}`,
+        });
+
+        return await googleAuthMiddleware(c, next);
+    },
     async (c) => {
         const providerUser = c.get("user-google");
 

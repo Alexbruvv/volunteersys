@@ -12,7 +12,6 @@ import { scheduleBlocks } from "./routes/scheduleBlocks";
 import { Settings } from "luxon";
 import { schedules } from "./routes/schedules";
 import { trimTrailingSlash } from "hono/trailing-slash";
-import { httpsRedirect } from "./middleware/httpsRedirect";
 
 process.env.TZ = "Europe/London";
 
@@ -21,7 +20,6 @@ Settings.defaultLocale = "en-GB";
 
 const app = new Hono().basePath(Bun.env.BASE_PATH ?? "/");
 app.use(trimTrailingSlash());
-app.use(httpsRedirect());
 app.use("/static/*", serveStatic({ root: "./" }));
 app.route("/", root);
 app.route("/auth", auth);
