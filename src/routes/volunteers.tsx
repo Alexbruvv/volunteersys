@@ -119,11 +119,65 @@ volunteers.get("/role-assignments/:areaId", authMiddleware("ASSIGN_VOLUNTEERS"),
         },
     });
 
-    const volunteers = await db.volunteer.findMany({
-        orderBy: { name: "asc" },
+    const volunteers = (
+        await db.volunteer.findMany({
+            orderBy: { name: "asc" },
+            include: {
+                slotAssignments: true,
+            },
+        })
+    ).filter((v) => {
+        return area.assignments.some((a) => a.volunteerId === v.id);
     });
 
     return renderPage(c, <RoleAssignmentsPage area={area} volunteers={volunteers} />);
+});
+
+volunteers.post("/role-assignments/:areaId", authMiddleware("ASSIGN_VOLUNTEERS"), async (c) => {
+    const data = await c.req.json();
+
+    if (data.queuedUpdates) {
+        for (const update of data.queuedUpdates) {
+            if (update.roleId === "") {
+                await db.scheduleSlotAssignment.deleteMany({
+                    where: {
+                        volunteerId: update.volunteerId,
+                        scheduleSlotId: update.scheduleSlotId,
+                    },
+                });
+
+                continue;
+            }
+
+            const existingAssignment = await db.scheduleSlotAssignment.findFirst({
+                where: {
+                    volunteerId: update.volunteerId,
+                    scheduleSlotId: update.scheduleSlotId,
+                },
+            });
+
+            if (existingAssignment) {
+                await db.scheduleSlotAssignment.update({
+                    where: {
+                        id: existingAssignment.id,
+                    },
+                    data: {
+                        roleId: update.roleId,
+                    },
+                });
+            } else {
+                await db.scheduleSlotAssignment.create({
+                    data: {
+                        volunteerId: update.volunteerId,
+                        scheduleSlotId: update.scheduleSlotId,
+                        roleId: update.roleId,
+                    },
+                });
+            }
+        }
+    }
+
+    return c.json({ success: true });
 });
 
 volunteers.get("/:id", authMiddleware("MANAGE_VOLUNTEERS"), async (c) => {

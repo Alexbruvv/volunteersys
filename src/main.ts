@@ -20,7 +20,13 @@ Settings.defaultLocale = "en-GB";
 
 const app = new Hono().basePath(Bun.env.BASE_PATH ?? "/");
 app.use(trimTrailingSlash());
-app.use("/static/*", serveStatic({ root: "./" }));
+app.use(
+    "/static/*",
+    serveStatic({
+        root: "./",
+        rewriteRequestPath: (path) => path.replace((Bun.env.BASE_PATH ?? "") + "/static", "/static"),
+    })
+);
 app.route("/", root);
 app.route("/auth", auth);
 app.route("/attendance", attendance);

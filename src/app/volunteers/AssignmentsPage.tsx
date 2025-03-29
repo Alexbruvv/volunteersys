@@ -1,5 +1,6 @@
 import type { Area, ScheduleBlock, ScheduleBlockAssignment, Volunteer } from "@prisma/client";
 import { Fragment } from "hono/jsx/jsx-runtime";
+import url from "../../utils/url";
 
 export default function AssignmentsPage({
     volunteers,
@@ -82,7 +83,7 @@ export default function AssignmentsPage({
                 </tbody>
             </table>
 
-            <script src="/static/assignments.js" defer></script>
+            <script src={url("/static/assignments.js")} defer></script>
         </div>
     );
 }
