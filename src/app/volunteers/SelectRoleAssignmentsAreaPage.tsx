@@ -1,7 +1,7 @@
 import type { Area } from "@prisma/client";
 import url from "../../utils/url";
 
-export default function SelectRoleAssigmentsAreaPage({ areas }: { areas: Area[] }) {
+export default function SelectRoleAssignmentsAreaPage({ areas }: { areas: Area[] }) {
     return (
         <div className="container is-fluid content">
             <h3 className="title is-3">Select area</h3>
