@@ -61,11 +61,11 @@ export default function Navbar() {
                                 )}
                                 {hasPermission(user, "ASSIGN_VOLUNTEERS") && (
                                     <Fragment>
-                                        <a href="/volunteers/assignments" className="navbar-item">
+                                        <a href={url("/volunteers/assignments")} className="navbar-item">
                                             Assignments
                                         </a>
 
-                                        <a href="/volunteers/role-assignments" className="navbar-item">
+                                        <a href={url("/volunteers/role-assignments")} className="navbar-item">
                                             Role assignments
                                         </a>
                                     </Fragment>
