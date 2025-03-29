@@ -12,7 +12,7 @@ export const schedules = new Hono();
 schedules.route("/", slots);
 
 schedules.get("/", authMiddleware("CONFIGURE_SCHEDULES"), async (c) => {
-    const schedules = await db.schedule.findMany();
+    const schedules = await db.schedule.findMany({ orderBy: { name: "asc" } });
 
     return renderPage(c, <SchedulesPage schedules={schedules} />);
 });

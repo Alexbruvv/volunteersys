@@ -5,17 +5,17 @@ const saveButton = document.getElementById("save");
 
 rows.forEach((row) => {
     const volunteerId = row.getAttribute("data-volunteer-id");
-    const selects = row.querySelectorAll(`select[name^="scheduleBlock-"]`);
+    const selects = row.querySelectorAll(`select[name^="scheduleSlot-"]`);
 
     selects.forEach((select) => {
-        const scheduleBlockId = select.getAttribute("name").split("-")[1];
+        const scheduleSlotId = select.getAttribute("name").split("-")[1];
 
         select.addEventListener("change", (e) => {
             const value = e.target.value;
             queuedUpdates.push({
                 volunteerId,
-                scheduleBlockId,
-                areaId: value,
+                scheduleSlotId,
+                roleId: value,
             });
 
             saveButton.disabled = false;

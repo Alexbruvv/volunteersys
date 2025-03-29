@@ -59,7 +59,7 @@ attendance.post("/:id", authMiddleware("CONFIGURE_ATTENDANCE_SHEETS"), async (c)
 attendance.get("/:id/record", authMiddleware("RECORD_ATTENDANCE"), async (c) => {
     const sheet = await db.attendanceSheet.findFirstOrThrow({
         where: { id: c.req.param("id") },
-        include: { volunteers: true },
+        include: { volunteers: { orderBy: { name: "asc" } } },
     });
     const volunteers = await db.volunteer.findMany();
 
@@ -72,7 +72,9 @@ attendance.get("/:id/toggle", authMiddleware("RECORD_ATTENDANCE"), async (c) => 
     const sheet = await db.attendanceSheet.findFirstOrThrow({
         where: { id: c.req.param("id") },
         include: {
-            volunteers: true,
+            volunteers: {
+                orderBy: { name: "asc" },
+            },
         },
     });
 

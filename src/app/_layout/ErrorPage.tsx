@@ -1,3 +1,4 @@
+import url from "../../utils/url";
 import Root from "./Root";
 
 export default function ErrorPage({ error }: { error: string }) {

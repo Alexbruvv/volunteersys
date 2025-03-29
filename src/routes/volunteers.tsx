@@ -8,6 +8,8 @@ import EditVolunteerPage from "../app/volunteers/EditVolunteerPage";
 import DeleteVolunteerPage from "../app/volunteers/DeleteVolunteerPage";
 import AssignmentsPage from "../app/volunteers/AssignmentsPage";
 import url from "../utils/url";
+import SelectRoleAssignmentsAreaPage from "../app/volunteers/SelectRoleAssignmentsAreaPage";
+import RoleAssignmentsPage from "../app/volunteers/RoleAssignmentsPage";
 
 export const volunteers = new Hono();
 
@@ -85,6 +87,90 @@ volunteers.post("/assignments", authMiddleware("ASSIGN_VOLUNTEERS"), async (c) =
                         volunteerId: update.volunteerId,
                         scheduleBlockId: update.scheduleBlockId,
                         areaId: update.areaId,
+                    },
+                });
+            }
+        }
+    }
+
+    return c.json({ success: true });
+});
+
+volunteers.get("/role-assignments", authMiddleware("ASSIGN_VOLUNTEERS"), async (c) => {
+    const areas = await db.area.findMany({ orderBy: { name: "asc" } });
+
+    return renderPage(c, <SelectRoleAssignmentsAreaPage areas={areas} />);
+});
+
+volunteers.get("/role-assignments/:areaId", authMiddleware("ASSIGN_VOLUNTEERS"), async (c) => {
+    const area = await db.area.findUniqueOrThrow({
+        where: { id: c.req.param("areaId") },
+        include: {
+            schedule: {
+                include: {
+                    slots: {
+                        orderBy: { startTime: "asc" },
+                    },
+                },
+            },
+            assignments: true,
+            roles: true,
+            owners: true,
+        },
+    });
+
+    const volunteers = (
+        await db.volunteer.findMany({
+            orderBy: { name: "asc" },
+            include: {
+                slotAssignments: true,
+            },
+        })
+    ).filter((v) => {
+        return area.assignments.some((a) => a.volunteerId === v.id);
+    });
+
+    return renderPage(c, <RoleAssignmentsPage area={area} volunteers={volunteers} />);
+});
+
+volunteers.post("/role-assignments/:areaId", authMiddleware("ASSIGN_VOLUNTEERS"), async (c) => {
+    const data = await c.req.json();
+
+    if (data.queuedUpdates) {
+        for (const update of data.queuedUpdates) {
+            if (update.roleId === "") {
+                await db.scheduleSlotAssignment.deleteMany({
+                    where: {
+                        volunteerId: update.volunteerId,
+                        scheduleSlotId: update.scheduleSlotId,
+                    },
+                });
+
+                continue;
+            }
+
+            const existingAssignment = await db.scheduleSlotAssignment.findFirst({
+                where: {
+                    volunteerId: update.volunteerId,
+                    scheduleSlotId: update.scheduleSlotId,
+                },
+            });
+
+            if (existingAssignment) {
+                await db.scheduleSlotAssignment.update({
+                    where: {
+                        id: existingAssignment.id,
+                    },
+                    data: {
+                        roleId: update.roleId,
+                    },
+                });
+            } else {
+                await db.scheduleSlotAssignment.create({
+                    data: {
+                        volunteerId: update.volunteerId,
+                        scheduleSlotId: update.scheduleSlotId,
+                        roleId: update.roleId,
                     },
                 });
             }
