@@ -1,3 +1,5 @@
+import url from "../../utils/url";
+
 export default function CreateAttendanceSheetPage() {
     return (
         <div className="container">

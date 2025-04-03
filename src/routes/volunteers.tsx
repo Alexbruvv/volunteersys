@@ -10,6 +10,8 @@ import AssignmentsPage from "../app/volunteers/AssignmentsPage";
 import url from "../utils/url";
 import SelectRoleAssignmentsAreaPage from "../app/volunteers/SelectRoleAssignmentsAreaPage";
 import RoleAssignmentsPage from "../app/volunteers/RoleAssignmentsPage";
+import Root from "../app/_layout/Root";
+import PublicSchedulePage from "../app/volunteers/PublicSchedulePage";
 
 export const volunteers = new Hono();
 
@@ -180,8 +182,66 @@ volunteers.post("/role-assignments/:areaId", authMiddleware("ASSIGN_VOLUNTEERS")
     return c.json({ success: true });
 });
 
+volunteers.get("/:id/public", async (c) => {
+    const volunteer = await db.volunteer.findUniqueOrThrow({
+        include: {
+            assignments: {
+                include: {
+                    area: true,
+                    scheduleBlock: {
+                        include: {
+                            slots: true,
+                        },
+                    },
+                },
+                orderBy: {
+                    scheduleBlock: {
+                        startTime: "asc",
+                    },
+                },
+            },
+            slotAssignments: {
+                include: {
+                    role: true,
+                },
+            },
+        },
+        where: {
+            id: c.req.param("id"),
+        },
+    });
+
+    return c.html(
+        <Root>
+            <PublicSchedulePage volunteer={volunteer} />
+        </Root>
+    );
+});
+
 volunteers.get("/:id", authMiddleware("MANAGE_VOLUNTEERS"), async (c) => {
     const volunteer = await db.volunteer.findUniqueOrThrow({
+        include: {
+            assignments: {
+                include: {
+                    area: true,
+                    scheduleBlock: {
+                        include: {
+                            slots: true,
+                        },
+                    },
+                },
+                orderBy: {
+                    scheduleBlock: {
+                        startTime: "asc",
+                    },
+                },
+            },
+            slotAssignments: {
+                include: {
+                    role: true,
+                },
+            },
+        },
         where: {
             id: c.req.param("id"),
         },
