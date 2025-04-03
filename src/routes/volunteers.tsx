@@ -182,6 +182,28 @@ volunteers.post("/role-assignments/:areaId", authMiddleware("ASSIGN_VOLUNTEERS")
 
 volunteers.get("/:id", authMiddleware("MANAGE_VOLUNTEERS"), async (c) => {
     const volunteer = await db.volunteer.findUniqueOrThrow({
+        include: {
+            assignments: {
+                include: {
+                    area: true,
+                    scheduleBlock: {
+                        include: {
+                            slots: true,
+                        },
+                    },
+                },
+                orderBy: {
+                    scheduleBlock: {
+                        startTime: "asc",
+                    },
+                },
+            },
+            slotAssignments: {
+                include: {
+                    role: true,
+                },
+            },
+        },
         where: {
             id: c.req.param("id"),
         },
