@@ -37,6 +37,13 @@ export default function EditVolunteerPage({
                 </ul>
             </nav>
 
+            <p>
+                A public version of this user's schedule can be accessed{" "}
+                <a href={url("/volunteers/:id/public", { id: volunteer.id })}>here</a>.
+            </p>
+
+            <hr />
+
             <div className="columns">
                 <div className="column">
                     <form method="post">
