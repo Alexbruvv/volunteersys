@@ -39,27 +39,31 @@ export default function PublicSchedulePage({
                                     {assignment.scheduleBlock.name}
                                 </td>
                             </tr>
-                            {assignment.scheduleBlock.slots.map((slot) => {
-                                const role = volunteer.slotAssignments.find((s) => s.scheduleSlotId === slot.id)?.role;
+                            {assignment.scheduleBlock.slots
+                                .filter((slot) => slot.scheduleId === assignment.area.scheduleId)
+                                .map((slot) => {
+                                    const role = volunteer.slotAssignments.find(
+                                        (s) => s.scheduleSlotId === slot.id
+                                    )?.role;
 
-                                return (
-                                    <tr key={slot.id}>
-                                        <td width="25%">{slot.name}</td>
-                                        <td width="40%">
-                                            {assignment.scheduleBlock.startTime.toLocaleTimeString([], {
-                                                hour: "2-digit",
-                                                minute: "2-digit",
-                                            })}{" "}
-                                            -{" "}
-                                            {assignment.scheduleBlock.endTime.toLocaleTimeString([], {
-                                                hour: "2-digit",
-                                                minute: "2-digit",
-                                            })}
-                                        </td>
-                                        <td>{role?.name ?? "-"}</td>
-                                    </tr>
-                                );
-                            })}
+                                    return (
+                                        <tr key={slot.id}>
+                                            <td width="25%">{slot.name}</td>
+                                            <td width="40%">
+                                                {slot.startTime.toLocaleTimeString([], {
+                                                    hour: "2-digit",
+                                                    minute: "2-digit",
+                                                })}{" "}
+                                                -{" "}
+                                                {slot.endTime.toLocaleTimeString([], {
+                                                    hour: "2-digit",
+                                                    minute: "2-digit",
+                                                })}
+                                            </td>
+                                            <td>{role?.name ?? "-"}</td>
+                                        </tr>
+                                    );
+                                })}
                         </Fragment>
                     ))}
                 </tbody>
