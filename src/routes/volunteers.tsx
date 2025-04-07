@@ -190,7 +190,9 @@ volunteers.get("/:id/public", async (c) => {
                     area: true,
                     scheduleBlock: {
                         include: {
-                            slots: true,
+                            slots: {
+                                orderBy: { startTime: "asc" },
+                            },
                         },
                     },
                 },
@@ -226,7 +228,9 @@ volunteers.get("/:id", authMiddleware("MANAGE_VOLUNTEERS"), async (c) => {
                     area: true,
                     scheduleBlock: {
                         include: {
-                            slots: true,
+                            slots: {
+                                orderBy: { startTime: "asc" },
+                            },
                         },
                     },
                 },
