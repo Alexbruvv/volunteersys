@@ -12,6 +12,8 @@ import SelectRoleAssignmentsAreaPage from "../app/volunteers/SelectRoleAssignmen
 import RoleAssignmentsPage from "../app/volunteers/RoleAssignmentsPage";
 import Root from "../app/_layout/Root";
 import PublicSchedulePage from "../app/volunteers/PublicSchedulePage";
+import ical from "ical-generator";
+import { DateTime } from "luxon";
 
 export const volunteers = new Hono();
 
@@ -218,6 +220,57 @@ volunteers.get("/:id/public", async (c) => {
             <PublicSchedulePage volunteer={volunteer} />
         </Root>
     );
+});
+
+volunteers.get("/:id/public/feed", async (c) => {
+    const volunteer = await db.volunteer.findUniqueOrThrow({
+        include: {
+            assignments: {
+                include: {
+                    area: true,
+                    scheduleBlock: {
+                        include: {
+                            slots: {
+                                orderBy: { startTime: "asc" },
+                            },
+                        },
+                    },
+                },
+                orderBy: {
+                    scheduleBlock: {
+                        startTime: "asc",
+                    },
+                },
+            },
+            slotAssignments: {
+                include: {
+                    role: true,
+                },
+            },
+        },
+        where: {
+            id: c.req.param("id"),
+        },
+    });
+    const slots = await db.scheduleSlot.findMany();
+
+    const calendar = ical({ name: `Schedule - ${volunteer.name}` });
+
+    for (const slotAssignment of volunteer.slotAssignments) {
+        const slot = slots.find((s) => s.id === slotAssignment.scheduleSlotId);
+        if (!slot) continue;
+
+        calendar.createEvent({
+            id: slotAssignment.id,
+            start: DateTime.fromJSDate(slot.startTime).toJSDate(),
+            end: DateTime.fromJSDate(slot.endTime).toJSDate(),
+            summary: slotAssignment.role.name,
+        });
+    }
+
+    c.header("Content-Type", "text/calendar");
+    c.header("Content-Disposition", 'attachment; filename="volunteer-schedule.ics"');
+    return c.text(calendar.toString());
 });
 
 volunteers.get("/:id", authMiddleware("MANAGE_VOLUNTEERS"), async (c) => {

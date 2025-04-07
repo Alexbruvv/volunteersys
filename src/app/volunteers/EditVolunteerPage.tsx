@@ -9,6 +9,7 @@ import {
 } from "@prisma/client";
 import url from "../../utils/url";
 import { Fragment } from "hono/jsx/jsx-runtime";
+import { DateTime } from "luxon";
 
 export default function EditVolunteerPage({
     volunteer,
@@ -133,15 +134,13 @@ export default function EditVolunteerPage({
                                                 <tr key={slot.id}>
                                                     <td width="25%">{slot.name}</td>
                                                     <td width="40%">
-                                                        {slot.startTime.toLocaleTimeString([], {
-                                                            hour: "2-digit",
-                                                            minute: "2-digit",
-                                                        })}{" "}
+                                                        {DateTime.fromJSDate(slot.startTime).toLocaleString(
+                                                            DateTime.TIME_24_SIMPLE
+                                                        )}{" "}
                                                         -{" "}
-                                                        {slot.endTime.toLocaleTimeString([], {
-                                                            hour: "2-digit",
-                                                            minute: "2-digit",
-                                                        })}
+                                                        {DateTime.fromJSDate(slot.endTime).toLocaleString(
+                                                            DateTime.TIME_24_SIMPLE
+                                                        )}
                                                     </td>
                                                     <td>{role?.name ?? "-"}</td>
                                                 </tr>
