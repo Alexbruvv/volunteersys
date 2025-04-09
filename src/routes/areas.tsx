@@ -6,6 +6,8 @@ import AreasPage from "../app/areas/AreasPage";
 import CreateAreaPage from "../app/areas/CreateAreaPage";
 import EditAreaPage from "../app/areas/EditAreaPage";
 import DeleteAreaPage from "../app/areas/DeleteAreaPage";
+import PublicAreaPage from "../app/areas/PublicAreaPage";
+import Root from "../app/_layout/Root";
 import { roles } from "./roles";
 import url from "../utils/url";
 
@@ -56,6 +58,37 @@ areas.get("/:id", authMiddleware("CONFIGURE_AREAS"), async (c) => {
     const schedules = await db.schedule.findMany();
 
     return renderPage(c, <EditAreaPage area={area} users={users} schedules={schedules} />);
+});
+
+areas.get("/:id/public", async (c) => {
+    const area = await db.area.findUniqueOrThrow({
+        where: {
+            id: c.req.param("id"),
+        },
+        include: {
+            roles:{
+                orderBy: {
+                    name: 'asc'
+                },
+                include: {
+                    assignments: {
+                        include: {
+                            volunteer: true
+                        }
+                    }
+                }
+            },
+            schedule: {
+                include: {
+                    slots: {
+                        orderBy: {startTime: 'asc'}
+                    }
+                }
+            }
+        }
+    });
+
+    return c.html(<Root><PublicAreaPage area={area} /></Root>);
 });
 
 areas.post("/:id", authMiddleware("CONFIGURE_AREAS"), async (c) => {
