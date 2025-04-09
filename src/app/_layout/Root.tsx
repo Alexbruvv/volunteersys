@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from "hono/jsx";
+import url from "../../utils/url";
 
 export default function Root({ children }: PropsWithChildren) {
     return (
@@ -8,7 +9,7 @@ export default function Root({ children }: PropsWithChildren) {
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"></link>
             </head>
             <body>{children}</body>
-            <script src="/static/navbar.js"></script>
+            <script src={url("/static/navbar.js")}></script>
         </html>
     );
 }
