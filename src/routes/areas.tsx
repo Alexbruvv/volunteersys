@@ -81,10 +81,13 @@ areas.get("/:id/public", async (c) => {
             schedule: {
                 include: {
                     slots: {
-                        orderBy: {startTime: 'asc'}
+                        orderBy: {startTime: 'asc'},
+                        include: {
+                            scheduleBlock: true
+                        }
                     }
                 }
-            }
+            },
         }
     });
 
