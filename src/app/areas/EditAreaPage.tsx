@@ -29,7 +29,8 @@ export default function EditAreaPage({
             </nav>
 
             <p>
-              A public version of the schedule for this area can be accessed{" "}<a href={url("/areas/:id/public", {id: area.id})}>here</a>.
+                A public version of the schedule for this area can be accessed{" "}
+                <a href={url("/areas/:id/public", { id: area.id })}>here</a>.
             </p>
 
             <form class="box" method="post">
